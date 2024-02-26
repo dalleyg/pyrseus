@@ -1,0 +1,7 @@
+# For the plugin features that only work on non-Windows platforms at this time.
+# These work well on linux and macos, but are harder to get working on Windows.
+#  - ipyparallel has pickling issues on Windows (that affect neither our
+#    cloudpickle-enabled executor, nor loky's)
+#  - mpi4py is difficult to setup properly on Windows, so it is untested.
+ipyparallel
+mpi4py>=3.0.0

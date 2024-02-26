@@ -1,0 +1,94 @@
+name: Test Python Packages
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python-version: "3.9"
+            include-optionals: false
+            os-type: linux
+          - os: ubuntu-latest
+            python-version: "3.10"
+            include-optionals: false
+            os-type: linux
+          - os: ubuntu-latest
+            python-version: "3.11"
+            include-optionals: false
+            os-type: linux
+          - os: ubuntu-latest
+            python-version: "3.12"
+            include-optionals: false
+            os-type: linux
+
+          - os: ubuntu-latest
+            python-version: "3.10"
+            include-optionals: true
+            os-type: linux
+
+          - os: macos-latest
+            python-version: "3.10"
+            include-optionals: true
+            os-type: macos
+          - os: windows-latest
+            python-version: "3.10"
+            include-optionals: true
+            os-type: windows
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install required dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --root-user-action=ignore -r requirements.txt
+        python -m pip install --root-user-action=ignore -r dev-requirements.txt
+
+    - name: Setup mpi (if include-optionals)
+      if: matrix.include-optionals
+      uses: mpi4py/setup-mpi@v1
+      with:
+        # There's something funny about either how setup-mpi sets up mpich
+        # or github's actions environment. We get segfaults on ubuntu-latest
+        # if we omit this override.
+        mpi: ${{ matrix.os == 'windows-latest' && 'msmpi' || 'openmpi' }}
+
+    - name: Install optional dependencies (if include-optionals)
+      if: matrix.include-optionals
+      run: |
+        pip install -r optional-requirements.txt
+
+    - name: Install non-win32 optional dependencies (if include-optionals)
+      if: ${{ matrix.include-optionals && (matrix.os != 'windows-latest') }}
+      run: |
+        pip install -r optional-non-win32-requirements.txt
+
+    - name: Lint with ruff
+      if: matrix.include-optionals
+      uses: chartboost/ruff-action@v1
+
+    - name: Base tests with tox
+      if: ${{ !matrix.include-optionals }}
+      run: tox -e py${{ matrix.python-version }}-base-${{ matrix.os-type }} -- -lvv --maxfail=5 -m 'not slow'
+
+    - name: All tests with tox
+      if: ${{ matrix.include-optionals }}
+      run: tox -e py${{ matrix.python-version }}-all-${{ matrix.os-type }} -- -lvv --maxfail=5 -m 'not slow'

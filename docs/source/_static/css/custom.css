@@ -1,0 +1,22 @@
+/* Disable <nowrap> for summary tables.
+*/
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+  white-space: normal;
+}
+
+/* Tighten up the whitespace in tables, especially the one in plugins.rst. */
+.rst-content table.docutils thead th,
+.rst-content table.docutils td {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+}
+
+/* Prefer top alignment vs. middle when table cells need word wrapping,
+ * especially the one in plugins.rst.
+ */
+.rst-content table.docutils td {
+  vertical-align: top;
+}

@@ -1,0 +1,19 @@
+# Note: although readthedocs.io auto-installs the modules listed in this file,
+# unfortunately sphinx-build doesn't do so with local clones. To run
+# "make docs", be sure to first run:
+#
+#    python -m pip install -r docs/requirements.txt
+#
+# See contributing.rst for details.
+cloudpickle
+furo
+ipyparallel
+jupytext
+loky
+mpi4py
+myst_nb
+sphinx-design
+sphinx-inline-tabs
+sphinx-rtd-dark-mode
+sphinx-rtd-theme>=2.0.0
+sphinx>=7.2.6

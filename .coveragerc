@@ -1,0 +1,12 @@
+# Options: https://coverage.readthedocs.io/en/latest/config.html
+
+[run]
+branch = True
+concurrency = multiprocessing
+disable_warnings = module-not-measured,no-data-collected,module-not-imported
+omit = */tests*,.tox/*
+source_pkgs = pyrseus
+
+[report]
+skip_covered = True
+skip_empty = True

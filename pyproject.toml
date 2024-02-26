@@ -1,0 +1,148 @@
+[project]
+name = "pyrseus"
+
+authors = [{ name = "Gerald Dalley" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+description = "ExecutorCtx factory, its plugins, and various serial Executors"
+dependencies = [
+    "cloudpickle",
+    "psutil",
+]
+dynamic = ["version"]
+keywords = [
+    "concurrent.futures",
+    "executor",
+    "InlineExecutor",
+    "Executor",
+    "ExecutorCtx",
+    "NoCatchExecutor",
+]
+license = "MIT"
+requires-python = ">=3.9"
+readme = "README.md"
+
+[project.optional-dependencies]
+cloudpickle = ["cloudpickle>=1.6.0"]
+ipyparallel = ["ipyparallel"]
+loky = ["loky"]
+mpi4py = ["mpi4py>=3.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/dalleyg/pyrseus"
+Issues = "https://github.com/dalleyg/pyrseus/issues"
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.hatch.version]
+path = "src/pyrseus/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyrseus"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "htmlcov/",
+  "*.ipynb",
+]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --doctest-glob=src/ -s --tb=native"
+markers = [
+    """slow: marks tests as slow (deselect with '-m "not slow"')""",
+]
+doctest_optionflags = "ELLIPSIS NORMALIZE_WHITESPACE IGNORE_EXCEPTION_DETAIL"
+testpaths = ["src/", "tests/"]
+timeout = 180  # per-test timeout
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+minversion = 2.0
+envlist = py{3.9,3.10,3.11,3.12,py3}-{all,base}-{linux,macos,windows}
+
+# Setup common to all commands we run via tox.
+[testenv]
+deps =
+    -r requirements.txt
+    -r dev-requirements.txt
+setenv =
+    PYTHONPATH = {toxinidir}:{toxinidir}/tests
+    RDMAV_FORK_SAFE = 1
+    # Suppress a spurious Jupyter warning when using ipyparallel.
+    JUPYTER_PLATFORM_DIRS = 1
+
+# Additional setup for the "*-base-*" unit tests.
+[testenv:py{3.9,3.10,3.11,3.12,py3}-base-{linux,macos,windows}]
+platform =
+    linux: linux
+    macos: darwin
+    windows: win32
+commands =
+    pytest {posargs:-l --maxfail=5}
+
+# Additional setup for the "*-all-*" unit tests.
+[testenv:py{3.9,3.10,3.11,3.12,py3}-all-{linux,macos,windows}]
+platform =
+    linux: linux
+    macos: darwin
+    windows: win32
+deps =
+    {[testenv]deps}
+    -r optional-requirements.txt
+    linux,macos: -r optional-non-win32-requirements.txt
+commands =
+    pytest {posargs:-l --maxfail=5}
+
+[testenv:coverage]
+platform =
+    linux: linux
+deps =
+    {[testenv]deps}
+    -r optional-requirements.txt
+    -r optional-non-win32-requirements.txt
+commands =
+    pytest {posargs:-l --maxfail=5 --cov --cov-report=html}
+
+[testenv:html]
+deps =
+    {[testenv]deps}
+    -r docs/requirements.txt
+changedir =
+    {toxinidir}/docs
+commands =
+    sphinx-build -M html source build {posargs}
+
+[testenv:ipython]
+platform =
+    linux: linux
+    macos: darwin
+    windows: win32
+deps =
+    {[testenv]deps}
+    -r optional-requirements.txt
+    linux,macos: -r optional-non-win32-requirements.txt
+    ipython
+commands =
+    ipython
+"""

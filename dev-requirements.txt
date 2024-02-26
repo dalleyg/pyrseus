@@ -1,0 +1,9 @@
+# Additional packages required to run the build and test commands.
+codecov
+coverage
+hatchling
+pytest
+pytest-cov
+pytest-timeout
+ruff
+tox
