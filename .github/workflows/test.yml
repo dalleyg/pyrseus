@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  PIP: python -m pip install --root-user-action=ignore
+
 jobs:
   build:
 
@@ -58,28 +61,35 @@ jobs:
 
     - name: Install required dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install --root-user-action=ignore -r requirements.txt
-        python -m pip install --root-user-action=ignore -r dev-requirements.txt
+        $PIP --upgrade pip
+        $PIP -r requirements.txt
+        $PIP -r dev-requirements.txt
 
     - name: Setup mpi (if include-optionals)
       if: matrix.include-optionals
       uses: mpi4py/setup-mpi@v1
       with:
         # There's something funny about either how setup-mpi sets up mpich
-        # or github's actions environment. We get segfaults on ubuntu-latest
+        # in github's actions environment. We get segfaults on ubuntu-latest
         # if we omit this override.
         mpi: ${{ matrix.os == 'windows-latest' && 'msmpi' || 'openmpi' }}
 
     - name: Install optional dependencies (if include-optionals)
       if: matrix.include-optionals
       run: |
-        pip install -r optional-requirements.txt
+        $PIP -r optional-requirements.txt
+
+    # TEMPORARY WORKAROUND FOR: https://github.com/mpi4py/mpi4py/issues/484
+    - name: Install mpi4py+setuptools workarounds (if include-optionals)
+      if: matrix.include-optionals
+      run: |
+        $PIP --upgrade "setuptools<=65.5.0"
+        $PIP --no-build-isolation --no-binary=mpi4py mpi4py
 
     - name: Install non-win32 optional dependencies (if include-optionals)
       if: ${{ matrix.include-optionals && (matrix.os != 'windows-latest') }}
       run: |
-        pip install -r optional-non-win32-requirements.txt
+        $PIP -r optional-non-win32-requirements.txt
 
     - name: Lint with ruff
       if: matrix.include-optionals
