@@ -79,13 +79,6 @@ jobs:
       run: |
         $PIP -r optional-requirements.txt
 
-    # TEMPORARY WORKAROUND FOR: https://github.com/mpi4py/mpi4py/issues/484
-    - name: Install mpi4py+setuptools workarounds (if include-optionals)
-      if: matrix.include-optionals
-      run: |
-        $PIP --upgrade "setuptools<=65.5.0"
-        $PIP --no-build-isolation --no-binary=mpi4py mpi4py
-
     - name: Install non-win32 optional dependencies (if include-optionals)
       if: ${{ matrix.include-optionals && (matrix.os != 'windows-latest') }}
       run: |
