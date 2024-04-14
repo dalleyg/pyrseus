@@ -3,6 +3,7 @@
 import sys
 import time
 
+from jupytext.cli import jupytext
 from sphinx.ext import autodoc
 
 # -- Tell sphinx where to find all of our code and tests.
@@ -12,8 +13,6 @@ from sphinx.ext import autodoc
 sys.path[:] = ["../../src", "../../tests/"] + sys.path
 
 # -- Hack to create paired notebook files so that myst_nb can find them.
-
-from jupytext.cli import jupytext
 
 jupytext(("--update", "--to", "ipynb", "notebooks/*.py"))
 
