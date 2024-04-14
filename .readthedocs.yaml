@@ -1,6 +1,9 @@
 version: 2
 build:
   os: ubuntu-22.04
+  apt_packages:
+    - openmpi-bin
+    - libopenmpi-dev
   tools:
     python: "3.11"
 
