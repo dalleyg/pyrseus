@@ -12,7 +12,7 @@ programming package with
    [concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html),
    [ipyparallel](https://ipyparallel.readthedocs.io),
    [loky](https://loky.readthedocs.io), [mpi4py](https://mpi4py.readthedocs.io),
-   and this package. Where relevant, optional
+   and itself. Where relevant, optional
    [cloudpickle](https://github.com/cloudpipe/cloudpickle)-enhanced plugins are
    also provided.
 

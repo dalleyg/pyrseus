@@ -9,10 +9,10 @@ programming package with:
   troubleshooting,
 - `~pyrseus.ctx.mgr.ExecutorCtx`, a factory for easily switching between
   different executors, and
-- a collection of ready-built `~pyrseus.ctx.mgr.ExecutorCtx` plugins,
-  supporting executors from `concurrent.futures`, |ipyparallel|_, |loky|_,
-  |mpi4py|_, and this package. Where relevant, optional |cloudpickle|_-enhanced
-  plugins are also provided.
+- a collection of ready-built `~pyrseus.ctx.mgr.ExecutorCtx` plugins, supporting
+  executors from `concurrent.futures`, |ipyparallel|_, |loky|_, |mpi4py|_, and
+  itself. Where relevant, optional |cloudpickle|_-enhanced plugins are also
+  provided.
 
 .. toctree::
    :hidden:
