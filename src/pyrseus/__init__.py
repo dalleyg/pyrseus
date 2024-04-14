@@ -16,4 +16,4 @@ from pyrseus.executors.nocatch import NoCatchExecutor  # NOQA
 from pyrseus.executors.pinline import PInlineExecutor  # NOQA
 from pyrseus.executors.pnocatch import PNoCatchExecutor  # NOQA
 
-__version__ = "0.0.4"
+__version__ = "0.1.0"

@@ -3,7 +3,7 @@ name = "pyrseus"
 
 authors = [{ name = "Gerald Dalley" }]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -16,7 +16,7 @@ classifiers = [
 ]
 description = "ExecutorCtx factory, its plugins, and various serial Executors"
 dependencies = [
-    "cloudpickle",
+    "cloudpickle>=1.6.0",
     "psutil",
 ]
 dynamic = ["version"]
@@ -33,7 +33,6 @@ requires-python = ">=3.9"
 readme = "README.md"
 
 [project.optional-dependencies]
-cloudpickle = ["cloudpickle>=1.6.0"]
 ipyparallel = ["ipyparallel"]
 loky = ["loky"]
 mpi4py = ["mpi4py>=3.0.0"]
