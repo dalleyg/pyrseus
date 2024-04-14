@@ -16,32 +16,32 @@ when choosing the default thread count.
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* as replacement for directly using
-   `concurrent.futures.ThreadPoolExecutor` for users that enjoy using
-   `~pyrseus.ctx.mgr.ExecutorCtx` and/or want to have a more conservative
-   default ``max_workers``.
+- *Common Use Cases:* as replacement for directly using
+  `concurrent.futures.ThreadPoolExecutor` for users that enjoy using
+  `~pyrseus.ctx.mgr.ExecutorCtx` and/or want to have a more conservative default
+  ``max_workers``.
 
- - *Concurrency:* Each worker owns its own thread within the main process.
+- *Concurrency:* Each worker owns its own thread within the main process.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+- *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
 
- - *Underlying Executor:* `concurrent.futures.ProcessPoolExecutor`
+- *Underlying Executor:* `concurrent.futures.ProcessPoolExecutor`
 
- - *Default max_workers:* Uses `~pyrseus.core.sys.get_num_available_cores`
-   instead of `multiprocessing.cpu_count`, respecting the CPU affinity mask when
-   possible.
+- *Default max_workers:* Uses `~pyrseus.core.sys.get_num_available_cores`
+  instead of `multiprocessing.cpu_count`, respecting the CPU affinity mask when
+  possible.
 
- - *Pickling:* Not applicable. For troubleshooting pickling issues, consider
-   using one of the serial executors instead, e.g.
-   `~pyrseus.ctx.plugins.cpinline`.
+- *Pickling:* Not applicable. For troubleshooting pickling issues, consider
+  using one of the serial executors instead, e.g.
+  `~pyrseus.ctx.plugins.cpinline`.
 
- - *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
-   `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
+- *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
+  `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

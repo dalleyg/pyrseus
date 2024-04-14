@@ -30,28 +30,28 @@ instead of held until fut.result() was called.
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* for troubleshooting, as a fail-fast variant of the
-   `~pyrseus.ctx.plugins.inline`.
+- *Common Use Cases:* for troubleshooting, as a fail-fast variant of the
+  `~pyrseus.ctx.plugins.inline`.
 
- - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
-   immediately run in the same process and thread they were submitted in.
+- *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
+  immediately run in the same process and thread they were submitted in.
 
- - *Exceptions:* This plugin has *non-standard* exception-handling semantics: no
-   task exceptions are caught and captured in their futures. Exceptions are
-   propagated out immediately.
+- *Exceptions:* This plugin has *non-standard* exception-handling semantics: no
+  task exceptions are caught and captured in their futures. Exceptions are
+  propagated out immediately.
 
- - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
-   Futhermore, it has minimal dependencies to other Pyrseus subpackages.
+- *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+  Futhermore, it has minimal dependencies to other Pyrseus subpackages.
 
- - *Underlying Executor:* This plugin uses
-   `~pyrseus.executors.nocatch.NoCatchExecutor`. That executor has no external
-   dependencies whatsoever.
+- *Underlying Executor:* This plugin uses
+  `~pyrseus.executors.nocatch.NoCatchExecutor`. That executor has no external
+  dependencies whatsoever.
 
- - *Default max_workers:* Not applicable.
+- *Default max_workers:* Not applicable.
 
- - *Pickling:* This plugin does not perform any pickling.
+- *Pickling:* This plugin does not perform any pickling.
 
- - *OnError handling:* Not applicable.
+- *OnError handling:* Not applicable.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

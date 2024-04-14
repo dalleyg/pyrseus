@@ -21,31 +21,31 @@ sure to replicate them via the ``path`` argument that's passed to
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* For multi-process and multi-host workloads, especially
-   for for organizations that already have MPI setup but want a simple map-only
-   interface to it.
+- *Common Use Cases:* For multi-process and multi-host workloads, especially
+  for for organizations that already have MPI setup but want a simple map-only
+  interface to it.
 
- - *Concurrency:* determined by the user's MPI configuration.
+- *Concurrency:* determined by the user's MPI configuration.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* |cloudpickle|_, |mpi4py|_
+- *3rd Party Dependencies:* |cloudpickle|_, |mpi4py|_
 
- - *Underlying Executor:* a thin wrapper around
-   `.mpi4py.futures.MPIPoolExecutor` that makes it use |cloudpickle|_ instead of
-   `pickle` for pickling tasks and their results.
+- *Underlying Executor:* a thin wrapper around
+  `.mpi4py.futures.MPIPoolExecutor` that makes it use |cloudpickle|_ instead of
+  `pickle` for pickling tasks and their results.
 
- - *Default max_workers:* determined by the user's MPI configuration. Often this
-   will require giving an explicit limit instead of relying on a pre-configured
-   default.
+- *Default max_workers:* determined by the user's MPI configuration. Often this
+  will require giving an explicit limit instead of relying on a pre-configured
+  default.
 
- - *Pickling:* |cloudpickle|_
+- *Pickling:* |cloudpickle|_
 
- - *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
-   `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
+- *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
+  `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

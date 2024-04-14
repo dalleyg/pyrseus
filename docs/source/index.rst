@@ -53,5 +53,5 @@ Usage Examples
 
    notebooks/executor_ctx_vs_classes
    notebooks/debugging_example
-   notebooks/get_executor
    notebooks/on_error
+   notebooks/get_executor

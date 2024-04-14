@@ -20,48 +20,47 @@ unit tests.
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* for multi-host workloads, especially for for
-   organizations that already have |ipyparallel|_ setup and wish to benefit from
-   `~pyrseus.ctx.mgr.ExecutorCtx`'s ability to easily switch to other executors,
-   especially the serial ones for light workloads and troubleshooting.
+- *Common Use Cases:* for multi-host workloads, especially for for organizations
+  that already have |ipyparallel|_ setup and wish to benefit from
+  `~pyrseus.ctx.mgr.ExecutorCtx`'s ability to easily switch to other executors,
+  especially the serial ones for light workloads and troubleshooting.
 
-    - If your organization has subclassed or wrapped `.ipyparallel.Cluster` to
-      help configure it better, consider deriving your own plugin from this
-      basic one. See `.EntryPoint.cluster_module_name` for details.
+  - If your organization has subclassed or wrapped `.ipyparallel.Cluster` to
+    help configure it better, consider deriving your own plugin from this basic
+    one. See `.EntryPoint.cluster_module_name` for details.
 
-    - *Non-recommended Use:* for basic single-host workloads, consider using
-      `~pyrseus.ctx.plugins.process`, `~pyrseus.ctx.plugins.cpprocess`, or
-      `~pyrseus.ctx.plugins.loky` instead of
-      `~pyrseus.ctx.plugins.ipyparallel`. They require no setup beyond
-      installation, they have fewer 3rd party package dependencies, their
-      startup latency is one to two orders of magnitude lower, their workers use
-      the same import environment as the primary process, and they have simpler
-      interfaces.
+  - *Non-recommended Use:* for basic single-host workloads, consider using
+    `~pyrseus.ctx.plugins.process`, `~pyrseus.ctx.plugins.cpprocess`, or
+    `~pyrseus.ctx.plugins.loky` instead of `~pyrseus.ctx.plugins.ipyparallel`.
+    They require no setup beyond installation, they have fewer 3rd party package
+    dependencies, their startup latency is one to two orders of magnitude lower,
+    their workers use the same import environment as the primary process, and
+    they have simpler interfaces.
 
-    - *Non-recommended Use:* if you use many of |ipyparallel|_'s advanced
-      features (other than configuration overrides), consider continuing to use
-      it directly instead of via Pyrseus.
+  - *Non-recommended Use:* if you use many of |ipyparallel|_'s advanced features
+    (other than configuration overrides), consider continuing to use it directly
+    instead of via Pyrseus.
 
- - *Concurrency:* determined by the user's |ipyparallel|_ configuration.
+- *Concurrency:* determined by the user's |ipyparallel|_ configuration.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* as of ``ipyparallel`` 7.1.0 on Python 3.10,
-   |ipyparallel|_ has 79 total transitive dependencies.
+- *3rd Party Dependencies:* as of ``ipyparallel`` 7.1.0 on Python 3.10,
+  |ipyparallel|_ has 79 total transitive dependencies.
 
- - *Underlying Executors:* miscellaneous wrappers around executors provided by
-   |ipyparallel|_.
+- *Underlying Executors:* miscellaneous wrappers around executors provided by
+  |ipyparallel|_.
 
- - *Default max_workers:* determined by the user's |ipyparallel|_ configuration.
+- *Default max_workers:* determined by the user's |ipyparallel|_ configuration.
 
- - *Pickling:* |ipyparallel|_ is inconsistent about when it enables
-   |cloudpickle|_ support. Since it's |ipyparallel|_'s preferred approach and
-   since Pyrseus depends on |cloudpickle|_ anyway, this plugin unconditionally
-   uses |cloudpickle|_ for pickling.
+- *Pickling:* |ipyparallel|_ is inconsistent about when it enables
+  |cloudpickle|_ support. Since it's |ipyparallel|_'s preferred approach and
+  since Pyrseus depends on |cloudpickle|_ anyway, this plugin unconditionally
+  uses |cloudpickle|_ for pickling.
 
- - *OnError handling:* Only directly supports implicit
-   `~pyrseus.ctx.api.OnError.WAIT` semantics.
+- *OnError handling:* Only directly supports implicit
+  `~pyrseus.ctx.api.OnError.WAIT` semantics.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """
@@ -147,19 +146,19 @@ class EntryPoint(ExecutorPluginEntryPoint):
     If your organization has its own subclass or factory for clusters, then you
     may wish to create your own plugin that subclasses this one.
 
-     - See :ref:`writingplugins` for general guidance on writing plugins.
+    - See :ref:`writingplugins` for general guidance on writing plugins.
 
-     - Override this attribute to refer to your subclass or factory's module
-       name.
+    - Override this attribute to refer to your subclass or factory's module
+      name.
 
-     - Override the `.cluster_class_name` attribute to refer to your subclass or
-       factory's name.
+    - Override the `.cluster_class_name` attribute to refer to your subclass or
+      factory's name.
 
-     - If your class uses traits the same way that `.ipyparallel.Cluster` does,
-       that's all you should need to do. But if it's a factory function or if's
-       a subclass it consumes constructor parameters differently, override
-       `.allowed_keywords` as well. See
-       `pyrseus.ctx.api.ExecutorPluginEntryPoint.allowed_keywords` for details.
+    - If your class uses traits the same way that `.ipyparallel.Cluster` does,
+      that's all you should need to do. But if it's a factory function or if's a
+      subclass it consumes constructor parameters differently, override
+      `.allowed_keywords` as well. See
+      `pyrseus.ctx.api.ExecutorPluginEntryPoint.allowed_keywords` for details.
     """
 
     cluster_class_name = "Cluster"

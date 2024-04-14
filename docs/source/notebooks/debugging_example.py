@@ -16,13 +16,8 @@
 # %% [markdown] editable=true slideshow={"slide_type": ""} tags=["pyflyby-cell"]
 # # Debugging Tasks with Pyrseus
 #
-# In this notebook, we show how Pyrseus can help with troubleshooting
-# problems with tasks, especially picklability issues.
-#
-# In this notebook, we'll use `ExecutorCtx`, but it would also be fine
-# to directly use the underlying executor classes. See the
-# "ExecutorCtx vs. Classes" notebook for an overview of those two
-# approaches.
+# In this notebook, we show how Pyrseus can help troubleshoot problems with
+# tasks, especially problems with pickling.
 
 # %% [markdown]
 # ## Setup
@@ -44,6 +39,7 @@ import random
 from multiprocessing import get_context
 
 import cloudpickle
+
 from pyrseus.core.pickle import call_with_round_trip_pickling, try_pickle_round_trip
 from pyrseus.ctx.mgr import ExecutorCtx
 
@@ -100,7 +96,7 @@ for data in (
 
 
 # %% [markdown]
-# Let's also create a pseudo-random test helper function and run it
+# Let's also create a randomized test helper function and run it
 # on a few different inputs.
 
 
@@ -130,8 +126,8 @@ assert sorting_test_with_big_random_list(42)
 # `ProcessPoolExecutor`. Unfortunately, we quickly run into trouble.
 # Depending on your Python version, your platform, and exactly what was
 # submitted, this will result in at least one of the following:
-#  - dead workers,
-#  - workers printing messages to stderr,
+#  - dead workers (undesirable),
+#  - workers printing messages to stderr (undesirable),
 #  - `BrokenProcessPool` exceptions (a symptom),
 #  - exceptions talking about `'__main__'` (a symptom),
 #  - exceptions talking about pickling (the real problem), and/or
@@ -173,7 +169,8 @@ else:
 # In this cell, we've failed to replicate the problem.
 #
 # Notice that all we had to do was change "process"
-# to "inline" to try this out.
+# to "inline" to try this out. We didn't need to remove
+# the 4 or mp_context arguments.
 with ExecutorCtx("inline", 4, mp_context=get_context("spawn")) as exe:
     futs = [exe.submit(sorting_test_with_big_random_list, seed) for seed in range(25)]
     for seed, fut in enumerate(futs):
@@ -183,8 +180,7 @@ with ExecutorCtx("inline", 4, mp_context=get_context("spawn")) as exe:
 # %% [markdown]
 # Unfortunately, the above snippet doesn't reproduce the problem. Let's
 # assume this led to us doing some more experiments and/or web searches,
-# leading us to believe this could be related to pickling and/or
-# unpickling.
+# making us think this could be related to pickling and/or unpickling.
 #
 # At this point, we may try using `PInlineExecutor`, since it advertises
 # itself as a tool for troubleshooting pickling problems. And indeed we

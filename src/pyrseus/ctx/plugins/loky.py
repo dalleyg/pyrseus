@@ -56,43 +56,43 @@ See `.EntryPoint.create` for more details.
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* As more robust and more powerful replacement for the
-   `~pyrseus.ctx.plugins.process` and `~pyrseus.ctx.plugins.cpprocess` plugins.
+- *Common Use Cases:* As more robust and more powerful replacement for the
+  `~pyrseus.ctx.plugins.process` and `~pyrseus.ctx.plugins.cpprocess` plugins.
 
- - *Concurrency:* Each worker runs in its own process. Unlike
-   `~pyrseus.ctx.plugins.process` and `~pyrseus.ctx.plugins.cpprocess`, idle
-   workers are automatically killed after a short timeout. This makes it more
-   appropriate for interactive use and with workloads that have a low concurrent
-   duty cycle.
+- *Concurrency:* Each worker runs in its own process. Unlike
+  `~pyrseus.ctx.plugins.process` and `~pyrseus.ctx.plugins.cpprocess`, idle
+  workers are automatically killed after a short timeout. This makes it more
+  appropriate for interactive use and with workloads that have a low concurrent
+  duty cycle.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* |cloudpickle|_ and |loky|_
+- *3rd Party Dependencies:* |cloudpickle|_ and |loky|_
 
- - *Underlying Executors:* wrappers around various |loky|_ executors.
+- *Underlying Executors:* wrappers around various |loky|_ executors.
 
- - *Default max_workers:* uses `~.loky.backend.context.cpu_count`, a smarter
-   variant of our `~pyrseus.core.sys.get_num_available_cores`.
+- *Default max_workers:* uses `~.loky.backend.context.cpu_count`, a smarter
+  variant of our `~pyrseus.core.sys.get_num_available_cores`.
 
- - *Pickling:* |cloudpickle|_
+- *Pickling:* |cloudpickle|_
 
- - *OnError handling:* Fully supports all `~pyrseus.ctx.api.OnError` modes.
+- *OnError handling:* Fully supports all `~pyrseus.ctx.api.OnError` modes.
 
-   - To reduce dispatch latency, |loky|_  pre-queues many extra tasks, making
-     them be uncancellable; so in `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`
-     mode, all of those pre-queued tasks are still run. If this results in too
-     much latency, use `~pyrseus.ctx.api.OnError.KILL_WORKERS`.
+  - To reduce dispatch latency, |loky|_  pre-queues many extra tasks, making
+    them be uncancellable; so in `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` mode,
+    all of those pre-queued tasks are still run. If this results in too much
+    latency, use `~pyrseus.ctx.api.OnError.KILL_WORKERS`.
 
-   - `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` is the default mode for reusable
-     executors and `~pyrseus.ctx.api.OnError.KILL_WORKERS` is the default for
-     non-reusable ones.
+  - `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` is the default mode for reusable
+    executors and `~pyrseus.ctx.api.OnError.KILL_WORKERS` is the default for
+    non-reusable ones.
 
-   - In reusable mode, `~pyrseus.ctx.api.OnError.KILL_WORKERS` will kill all
-     workers in the pool, not just those working on tasks for one particular
-     `~pyrseus.ctx.mgr.ExecutorCtx`. This is the only reason why
-     `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` is currently the default in
-     reusable mode.
+  - In reusable mode, `~pyrseus.ctx.api.OnError.KILL_WORKERS` will kill all
+    workers in the pool, not just those working on tasks for one particular
+    `~pyrseus.ctx.mgr.ExecutorCtx`. This is the only reason why
+    `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` is currently the default in
+    reusable mode.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """
@@ -149,33 +149,33 @@ class EntryPoint(ExecutorPluginEntryPoint):
         it with the ``__exit__`` time behavior that other Pyrseus plugins
         provide.
 
-         - If ``reusable`` is false, the executor is obtained via
-           `.loky.ProcessPoolExecutor`.
+        - If ``reusable`` is false, the executor is obtained via
+          `.loky.ProcessPoolExecutor`.
 
-            - If supplied, ``reuse`` and ``kill_workers`` keyword arguments are
-              silently ignored (as is standard practice for unused keyword
-              arguments with `~pyrseus.ctx.mgr.ExecutorCtx`).
+          - If supplied, ``reuse`` and ``kill_workers`` keyword arguments are
+            silently ignored (as is standard practice for unused keyword
+            arguments with `~pyrseus.ctx.mgr.ExecutorCtx`).
 
-            - If ``on_error`` is ``None``, it's treated as if it was
-              `.OnError.CANCEL_FUTURES`. Regardless, ``on_error`` is consumed by
-              this factory method.
+          - If ``on_error`` is ``None``, it's treated as if it was
+            `.OnError.CANCEL_FUTURES`. Regardless, ``on_error`` is consumed by
+            this factory method.
 
-            - All other arguments are passed to the underlying executor's
-              constructor, as-is.
+          - All other arguments are passed to the underlying executor's
+            constructor, as-is.
 
-            - An `.OnExitProxy` will be created with ``shutdown=False``.
+          - An `.OnExitProxy` will be created with ``shutdown=False``.
 
-         - If ``reusable`` is true, the executor is obtained by
-           `.loky.get_reusable_executor`.
+        - If ``reusable`` is true, the executor is obtained by
+          `.loky.get_reusable_executor`.
 
-            - If ``on_error`` is ``None``, it's treated as if it was
-              `.OnError.KILL_WORKERS`. Regardless, ``on_error`` is consumed by
-              this factory method.
+          - If ``on_error`` is ``None``, it's treated as if it was
+            `.OnError.KILL_WORKERS`. Regardless, ``on_error`` is consumed by
+            this factory method.
 
-            - All other arguments are passed to the underlying executor's
-              constructor, as-is.
+          - All other arguments are passed to the underlying executor's
+            constructor, as-is.
 
-            - An `.OnExitProxy` will be created with ``shutdown=True``.
+          - An `.OnExitProxy` will be created with ``shutdown=True``.
 
         :param max_workers: the maximum number of workers to use in the pool.
             This is passed directly to |loky|_ since it has a smart algorithm

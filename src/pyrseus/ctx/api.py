@@ -233,10 +233,10 @@ class ExecutorPluginEntryPoint(Protocol):
         If the user requests a `~pyrseus.ctx.mgr.ExecutorCtx` for this plugin,
         but they included some keywords that are missing from this set:
 
-         - any keywords there *are* in any other available plugin's
-           ``allowed_keywords`` will be silently dropped, and
+        - any keywords there *are* in any other available plugin's
+          ``allowed_keywords`` will be silently dropped, and
 
-         - any other keywords will trigger an exception.
+        - any other keywords will trigger an exception.
 
         This filtering and validation is done by
         `~pyrseus.ctx.registry.filter_kwargs`.

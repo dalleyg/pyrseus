@@ -194,10 +194,10 @@ assert f2.exception(0) is None
 #   executors pre-queue many tasks (approximately 2x the number of CPU cores,
 #   for various definitions of "cores").
 #
-# We first demonstrate that getting the cancel behavior without `ExecutorCtx`.
-# Unfortunately, it requires some mildly tricky extra boilerplate code every
-# time one is used. Furthermore, this first approach only works with executors
-# that have a `shutdown` method that takes a `cancel_futures` argument.
+# We first demonstrate the cancel behavior without `ExecutorCtx`. Unfortunately,
+# it requires some mildly tricky extra boilerplate code. Furthermore, this first
+# approach only works with executors that have a `shutdown` method that takes a
+# `cancel_futures` argument.
 
 # %%
 try:
@@ -324,9 +324,9 @@ assert f2.cancelled()
 # may bypass cleanup routines like releasing locks inside the user's task code,
 # within-task context managers, atexit handlers in the workers, etc.
 #
-# Here's a quick example showing how `loky`'s pre-queuing can make cancel mode
-# slow. If you want to make the slowness clearer, increase the `time.sleep`
-# argument.
+# Here's a quick example showing how `loky`'s pre-queuing can make the
+# previously-discussed cancel mode slow. If you want to make the slowness
+# clearer, increase the `time.sleep` argument.
 
 # %%
 try:
@@ -335,8 +335,8 @@ try:
         t0 = time.time()
         # We need to submit a lot of tasks for this demo. Depending on the
         # number of cores available on the current box and whether we're
-        # using reusable vs. non-reusable mode, the pre-queue depth can be
-        # hundreds of tasks long.
+        # using loky's reusable vs. non-reusable mode, the pre-queue depth
+        # can be hundreds of tasks long.
         futs = [exe.submit(time.sleep, 0.2)]
         for _ in range(1000):
             futs.append(exe.submit(os.getpid))
@@ -353,7 +353,7 @@ else:
 # The wall time would be longer if the extra pre-queued tasks weren't trivial.
 assert 0.2 <= t1 - t0 < 0.4, t1 - t0
 assert futs[0].exception(0) is None
-# We submtited enough that we'll get a mix between successful and cancelled
+# We submitted enough that we'll get a mix between successful and cancelled
 # futures.
 num_success = 0
 num_cancelled = 0
@@ -371,10 +371,10 @@ assert num_cancelled > 0
 
 # %% [markdown]
 #
-# And here we see that its kill mode mode is fast. We didn't even wait for the
-# first task to be completed to exit the with-statement. If you want to make
-# the quickness clearer, increase the `time.sleep` argument and notice that the
-# cell still runs just as fast.
+# And here we see that its kill mode is fast. We didn't even wait for the first
+# task to be completed to exit the with-statement. If you want to make the
+# quickness clearer, increase the `time.sleep` argument and notice that the cell
+# still runs just as fast.
 
 # %%
 try:

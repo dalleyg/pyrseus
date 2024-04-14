@@ -12,10 +12,9 @@ Serial-only Plugins
 ===================
 
 These serial-only plugins are non-concurrent ones that are suitable for light
-workloads and troubleshooting. These serial plugins allow users to keep their
-existing executor-based control flow for such light workloads and
-troubleshooting, instead of having to rewrite their application just to handle
-these situations. See the notebooks linked on the left for usage examples.
+workloads and troubleshooting. They allow users to retain their executor-based
+control flow instead of requiring users to have separate serial and parallel
+driver functions. See the notebooks linked on the left for usage examples.
 
 .. list-table::
     :header-rows: 1
@@ -37,21 +36,21 @@ these situations. See the notebooks linked on the left for usage examples.
       - `~pyrseus.executors.pinline.PInlineExecutor`
       - `pickle`
       - ``fut.result()``
-      - like ``"inline"`` but simulates the pickling done by concurrent
-        executors that use `pickle`, for troubleshooting pickling problems
+      - like ``"inline"``, but simulates the pickling done by concurrent
+        executors that use `pickle`; for troubleshooting pickling problems
 
     * - `~pyrseus.ctx.plugins.cpinline`
       - `~pyrseus.executors.cpinline.CpInlineExecutor`
       - |cloudpickle|_
       - ``fut.result()``
-      - like ``"pinline"`` but uses |cloudpickle|_
+      - like ``"pinline"``, but uses |cloudpickle|_
 
 
     * - `~pyrseus.ctx.plugins.nocatch`
       - `~pyrseus.executors.nocatch.NoCatchExecutor`
       - n/a
       - ``exe.submit(...)``
-      - like ``"inline"``, but intentional non-standard exception handling
+      - like ``"inline"``, but has intentional non-standard exception handling
 
     * - `~pyrseus.ctx.plugins.pnocatch`
       - `~pyrseus.executors.pnocatch.PNoCatchExecutor`
@@ -119,7 +118,7 @@ Multi-host-capable Concurrent Plugins
 
 The following plugins can support more advanced features like multi-host
 parallelism. Note that actually enabling multi-host support can require
-significant effort to configure their underlying 3rd party libraries. Advice on
+significant effort to configure the underlying 3rd party libraries. Advice on
 such configuration is outside the scope of the Pyrseus project.
 
 .. list-table::

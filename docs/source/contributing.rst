@@ -48,7 +48,7 @@ the following guidance.
   - Document your change in the PR description.
 
     - Include a brief discussion of how you tested it and whether all of the
-      tests succeeded. A single sentence is usually sufficient.
+      tests succeeded.
 
   - Submit your PR.
 
@@ -100,22 +100,25 @@ following:
 - Test your changes locally with both (a) Linux or macOS, and (b) Windows, as
   described below. This is the fastest, but it requires some extra setup.
 
-Locally Simulating GitHub Workflows from UNIX-like Hosts
---------------------------------------------------------
+Locally Simulating GitHub Workflows
+-----------------------------------
 
 To simulate the "Test Python Packages" workflow on a UNIX-like host, do the
 following:
 
-- First, setup `Docker <https://www.docker.com/get-started/>`_. Unfortunately,
-  this procedure does not work on lighter-weight alternatives like `Podman
-  <https://podman.io/>`_.
+- First, setup `Docker <https://www.docker.com/get-started/>`_.
+
+  - Note: Docker itself is unfortunately required by the ``nektos/act``
+    framework used below. Lighter-weight alternatives like `Podman
+    <https://podman.io/>`_ are not yet supported.
 
 - Setup the `nektos/act <https://github.com/nektos/act>`_ system. The easiest
   way is to follow their `Act Installation Instructions
   <https://nektosact.com/installation/index.html>`_.
 
-- To simulate the workflow, run a series of commands like the following,
-  adjusting the ``--matrix`` options as appropriate for your base system.
+- To locally simulate the GitHub workflow, run a series of commands like the
+  following, adjusting the ``--matrix`` options as appropriate for your base
+  system.
 
   .. code-block:: text
 
@@ -135,9 +138,6 @@ following:
   Note that the output can be rather verbose, so you may wish to redirect it to
   a file for offline inspection.
 
-Locally Testing on Windows
---------------------------
-
-If your changes are supported on Windows, please test them on Windows.
-Unfortunately, this procedure is less refined. See ``docker-win32/README.md``
-for details.
+- If your changes are supported on Windows, please also test them on Windows.
+  Unfortunately, this procedure is less refined. See ``docker-win32/README.md``
+  for details.

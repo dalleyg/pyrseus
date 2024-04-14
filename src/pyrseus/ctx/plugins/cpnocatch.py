@@ -17,29 +17,29 @@ submitted tasks and their return values, using |cloudpickle|_. This plugin uses
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* for troubleshooting with extra |cloudpickle|_ testing, as
-   a fail-fast variant of the `~pyrseus.ctx.plugins.cpinline`.
+- *Common Use Cases:* for troubleshooting with extra |cloudpickle|_ testing, as
+  a fail-fast variant of the `~pyrseus.ctx.plugins.cpinline`.
 
- - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
-   immediately run in the same process and thread they were submitted in.
+- *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
+  immediately run in the same process and thread they were submitted in.
 
- - *Exceptions:* This plugin has *non-standard* exception-handling semantics: no
-   task exceptions are caught and captured in their futures. Exceptions are
-   propagated out immediately.
+- *Exceptions:* This plugin has *non-standard* exception-handling semantics: no
+  task exceptions are caught and captured in their futures. Exceptions are
+  propagated out immediately.
 
- - *3rd Party Dependencies:* |cloudpickle|_
+- *3rd Party Dependencies:* |cloudpickle|_
 
- - *Underlying Executor:* `~pyrseus.executors.cpnocatch.CpNoCatchExecutor`
+- *Underlying Executor:* `~pyrseus.executors.cpnocatch.CpNoCatchExecutor`
 
- - *Default max_workers:* Not applicable.
+- *Default max_workers:* Not applicable.
 
- - *Pickling:* This plugin takes extra time to pickle and unpickle all tasks and
-   their results. If you aren't troubleshooting such issues and prefer lower
-   overhead, consider using the `~pyrseus.ctx.plugins.nocatch` plugin instead.
+- *Pickling:* This plugin takes extra time to pickle and unpickle all tasks and
+  their results. If you aren't troubleshooting such issues and prefer lower
+  overhead, consider using the `~pyrseus.ctx.plugins.nocatch` plugin instead.
 
- - *OnError handling:* Irrelevant because all tasks are run immediately.
+- *OnError handling:* Irrelevant because all tasks are run immediately.
 
- - *OnError handling:* Not applicable.
+- *OnError handling:* Not applicable.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

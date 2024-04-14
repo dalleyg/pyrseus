@@ -1,11 +1,11 @@
 """
 Provides a simple serial executor that captures exceptions in the standard way.
 
-This is useful
+This is useful:
 
- - for running executor-based code serially without having to rewrite all of the
-   control flow, and
- - making it easy to use a debugger to trace into task functions.
+- for running executor-based code serially without having to rewrite all of the
+  control flow, and
+- making it easy to use a debugger to trace into task functions.
 """
 
 from concurrent.futures import Executor, Future

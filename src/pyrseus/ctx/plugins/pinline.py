@@ -25,26 +25,26 @@ _pickle.PicklingError: Can't pickle ...
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* troubleshooting pickling problems for other plugins that
-   use `pickle` for serialization.
+- *Common Use Cases:* troubleshooting pickling problems for other plugins that
+  use `pickle` for serialization.
 
- - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
-   immediately run in the same process and thread they were submitted in.
+- *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
+  immediately run in the same process and thread they were submitted in.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+- *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
 
- - *Underlying Executor:* `~pyrseus.executors.pinline.PInlineExecutor`
+- *Underlying Executor:* `~pyrseus.executors.pinline.PInlineExecutor`
 
- - *Default max_workers:* Not applicable.
+- *Default max_workers:* Not applicable.
 
- - *Pickling:* This plugin takes extra time to pickle and unpickle all tasks and
-   their results. If you aren't troubleshooting such issues and prefer lower
-   overhead, consider using the `~pyrseus.ctx.plugins.inline` plugin instead.
+- *Pickling:* This plugin takes extra time to pickle and unpickle all tasks and
+  their results. If you aren't troubleshooting such issues and prefer lower
+  overhead, consider using the `~pyrseus.ctx.plugins.inline` plugin instead.
 
- - *OnError handling:* Not applicable.
+- *OnError handling:* Not applicable.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

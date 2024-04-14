@@ -91,11 +91,11 @@ def get_executor(*args, **kwargs):
         If you have an interactive use case like an IPython session or a Jupyter
         notebook where:
 
-          - you will be submitting parallel work in multiple different cells,
-          - your worker pool startup time is non-trivial and/or you have complex
-            parameters such as an initializer function, *and*
-          - you don't mind the worker pool staying alive and consuming resources
-            until the interactive process fully exits, then
+        - you will be submitting parallel work in multiple different cells,
+        - your worker pool startup time is non-trivial and/or you have complex
+          parameters such as an initializer function, *and*
+        - you don't mind the worker pool staying alive and consuming resources
+          until the interactive process fully exits, then
 
         this function may be right for you. But if even one of those statements
         is false, consider using the more robust `.ExecutorCtx` instead in a

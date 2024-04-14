@@ -5,25 +5,25 @@ serialization.
 
 There are two main use cases:
 
- - To change the serializer to a more powerful one like |cloudpickle|_. For
-   examples, see the source code of:
+- To change the serializer to a more powerful one like |cloudpickle|_. For
+  examples, see the source code of:
 
-    - `pyrseus.executors.cpprocess`: wrapper for
-      `~concurrent.futures.ProcessPoolExecutor` that uses |cloudpickle|_ instead
-      of `pickle` for task and result serialization.
+  - `pyrseus.executors.cpprocess`: wrapper for
+    `~concurrent.futures.ProcessPoolExecutor` that uses |cloudpickle|_ instead
+    of `pickle` for task and result serialization.
 
-    - `pyrseus.ctx.plugins.cpmpi4py`: wrapper for
-      `~mpi4py.futures.MPIPoolExecutor` that uses |cloudpickle|_ instead of
-      `pickle` for task and result serialization.
+  - `pyrseus.ctx.plugins.cpmpi4py`: wrapper for
+    `~mpi4py.futures.MPIPoolExecutor` that uses |cloudpickle|_ instead of
+    `pickle` for task and result serialization.
 
- - To help users troubleshoot serialization problems. For examples, see the
-   source code of:
+- To help users troubleshoot serialization problems. For examples, see the
+  source code of:
 
-    - `pyrseus.executors.pinline`: serializes tasks and results in the same
-      thread and process as the ``submit`` call, using `pickle`.
+  - `pyrseus.executors.pinline`: serializes tasks and results in the same thread
+    and process as the ``submit`` call, using `pickle`.
 
-    - `pyrseus.executors.cpinline`:  serializes tasks and results in the same
-      thread and process as the ``submit`` call, using |cloudpickle|_.
+  - `pyrseus.executors.cpinline`:  serializes tasks and results in the same
+    thread and process as the ``submit`` call, using |cloudpickle|_.
 """
 
 import inspect
@@ -255,12 +255,12 @@ class CustomPickledClosure:
         Wraps a function and its arguments into a nullary closure that forces a
         chosen pickler to be used for the closure and its return value.
 
-         - The closed function will remain wrapped by this class when it
-           undergoes round trip pickling.
+        - The closed function will remain wrapped by this class when it
+          undergoes round trip pickling.
 
-         - The return value of the closed function will be wrapped in a
-           `.OncePickledObject` that uses the same ``dumps`` and ``loads``
-           functions as the wrapper.
+        - The return value of the closed function will be wrapped in a
+          `.OncePickledObject` that uses the same ``dumps`` and ``loads``
+          functions as the wrapper.
 
         This is useful for wrapping functions that will be submitted to
         executors like `~concurrent.futures.ProcessPoolExecutor` with workers in

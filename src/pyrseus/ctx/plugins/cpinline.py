@@ -17,26 +17,26 @@ submitted tasks and their return values, using |cloudpickle|_. This plugin uses
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* serially troubleshooting pickling problems for
-   multi-process plugins that use |cloudpickle|_ for serialization.
+- *Common Use Cases:* serially troubleshooting pickling problems for
+  multi-process plugins that use |cloudpickle|_ for serialization.
 
- - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
-   immediately run in the same process and thread they were submitted in.
+- *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
+  immediately run in the same process and thread they were submitted in.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* |cloudpickle|_
+- *3rd Party Dependencies:* |cloudpickle|_
 
- - *Underlying Executor:* `~pyrseus.executors.cpinline.CpInlineExecutor`
+- *Underlying Executor:* `~pyrseus.executors.cpinline.CpInlineExecutor`
 
- - *Default max_workers:* Not applicable.
+- *Default max_workers:* Not applicable.
 
- - *Pickling:* This plugin takes extra time to pickle and unpickle all tasks and
-   their results. If you aren't troubleshooting such issues and prefer lower
-   overhead, consider using the `~pyrseus.ctx.plugins.inline` plugin instead.
+- *Pickling:* This plugin takes extra time to pickle and unpickle all tasks and
+  their results. If you aren't troubleshooting such issues and prefer lower
+  overhead, consider using the `~pyrseus.ctx.plugins.inline` plugin instead.
 
- - *OnError handling:* Not applicable.
+- *OnError handling:* Not applicable.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

@@ -16,34 +16,34 @@ standard way.
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:*
+- *Common Use Cases:*
 
-    - Light workloads: this plugin is useful for avoiding concurrency overhead
-      when running small batches of tasks. This lets developers avoid the
-      alternative of rewriting all of their control flow to not use executors at
-      all, just to get serial execution.
+  - Light workloads: this plugin is useful for avoiding concurrency overhead
+    when running small batches of tasks. This lets developers avoid the
+    alternative of rewriting all of their control flow to not use executors at
+    all, just to get serial execution.
 
-    - Troubleshooting: since tasks are executed immediately and within the same
-      thread, tracing through the task code in a debugger is trivially easy.
+  - Troubleshooting: since tasks are executed immediately and within the same
+    thread, tracing through the task code in a debugger is trivially easy.
 
- - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
-   immediately run in the same process and thread they were submitted in.
+- *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
+  immediately run in the same process and thread they were submitted in.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
-   Futhermore, it has minimal dependencies to other Pyrseus subpackages.
+- *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+  Futhermore, it has minimal dependencies to other Pyrseus subpackages.
 
- - *Underlying Executor:* This plugin uses
-   `~pyrseus.executors.inline.InlineExecutor`. That executor has no external
-   dependencies whatsoever.
+- *Underlying Executor:* This plugin uses
+  `~pyrseus.executors.inline.InlineExecutor`. That executor has no external
+  dependencies whatsoever.
 
- - *Default max_workers:* Not applicable.
+- *Default max_workers:* Not applicable.
 
- - *Pickling:* This plugin does not perform any pickling.
+- *Pickling:* This plugin does not perform any pickling.
 
- - *OnError handling:* Not applicable.
+- *OnError handling:* Not applicable.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

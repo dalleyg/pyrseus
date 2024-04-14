@@ -16,34 +16,34 @@ the CPU affinity mask when choosing the default thread count.
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* For the same use cases as `~pyrseus.ctx.plugins.process`,
-   but when users wish to use |cloudpickle|_ instead of `pickle` for serializing
-   tasks and their results.
+- *Common Use Cases:* For the same use cases as `~pyrseus.ctx.plugins.process`,
+  but when users wish to use |cloudpickle|_ instead of `pickle` for serializing
+  tasks and their results.
 
- - *Concurrency:* Each worker runs in its own process.
+- *Concurrency:* Each worker runs in its own process.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* |cloudpickle|_
+- *3rd Party Dependencies:* |cloudpickle|_
 
- - *Underlying Executor:* `concurrent.futures.ProcessPoolExecutor`
+- *Underlying Executor:* `concurrent.futures.ProcessPoolExecutor`
 
- - *Default max_workers*:* Uses `~pyrseus.core.sys.get_num_available_cores`
-   instead of `multiprocessing.cpu_count`, respecting the CPU affinity mask when
-   possible. Currently is unaware of cgroups constraints.
+- *Default max_workers*:* Uses `~pyrseus.core.sys.get_num_available_cores`
+  instead of `multiprocessing.cpu_count`, respecting the CPU affinity mask when
+  possible. Currently is unaware of cgroups constraints.
 
- - *Pickling:* |cloudpickle|_
+- *Pickling:* |cloudpickle|_
 
- - *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
-   `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
+- *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
+  `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
 
-   - By default, `~concurrent.futures.ProcessPoolExecutor`, pre-queues one extra
-     task, making it uncancellable; so in
-     `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` mode, that pre-queued task will
-     still be run.
+  - By default, `~concurrent.futures.ProcessPoolExecutor`, pre-queues one extra
+    task, making it uncancellable; so in
+    `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` mode, that pre-queued task will
+    still be run.
 
 .. note::
 
@@ -51,21 +51,21 @@ Plugin-specific Notes
    `~pyrseus.ctx.plugins.loky` plugin instead of this one. Here are a few of its
    advantages:
 
-    - Its `~.loky.backend.context.cpu_count` function for determining the
-      default ``max_workers`` is more sophisticated than ours, e.g. it respects
-      not only the CPU affinity mask, but also cgroups constraints.
+   - Its `~.loky.backend.context.cpu_count` function for determining the default
+     ``max_workers`` is more sophisticated than ours, e.g. it respects not only
+     the CPU affinity mask, but also cgroups constraints.
 
-    - Even though the |loky|_ project has already led to significant
-      improvements to the built-in `multiprocessing` library, its executors
-      still handle a few worker crash situations better than the built-in
-      `~concurrent.futures.ProcessPoolExecutor` that this plugin uses (as of
-      Python 3.10).
+   - Even though the |loky|_ project has already led to significant improvements
+     to the built-in `multiprocessing` library, its executors still handle a few
+     worker crash situations better than the built-in
+     `~concurrent.futures.ProcessPoolExecutor` that this plugin uses (as of
+     Python 3.10).
 
-    - It supports reusable worker pools that are especially convenient to use in
-      interactive code.
+   - It supports reusable worker pools that are especially convenient to use in
+     interactive code.
 
-    - It supports the `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode for faster
-      teardowns when there are uncaught exceptions in the main program.
+   - It supports the `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode for faster
+     teardowns when there are uncaught exceptions in the main program.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """

@@ -150,7 +150,7 @@ with ExecutorCtx("process", 2, mp_context=get_context("spawn")) as exe:
 
 # %% [markdown]
 # Switching to `InlineExecutor` is just a matter of changing the first argument
-# to `ExecutorCtx`. That context manager knows that `InlineExecutor` doesn't
+# to `ExecutorCtx`. The context manager knows that `InlineExecutor` doesn't
 # care about the positional `max_workers` argument or the keyword `mp_context`
 # argument, so it silently hides them from `InlineExecutor`.
 
@@ -164,19 +164,19 @@ with ExecutorCtx("inline", 2, mp_context=get_context("spawn")) as exe:
     print(infer_exe_type(exe))
 
 # %% [markdown]
-# Alternatively, it would still be fine to remove those extra arguments if you
+# Alternatively, it would still be fine to remove those extra arguments if we
 # don't anticipate going back and using `ProcessPoolExecutor` anymore.
 
 # %%
-# It's also okay to remove the extra arguments if we wont' be using the
+# It's also okay to remove the extra arguments if we won't be using the
 # "process" plugin anymore.
 with ExecutorCtx("inline") as exe:
     print(infer_exe_type(exe))
 
 # %% [markdown]
 # `ExecutorCtx` is nice and will complain about keyword arguments that no
-# available plugin accepts. Furthermore, it tells you what the available
-# plugins and allowed keywords are. That way you can see if the problem
+# available plugin accepts. Furthermore, it tells us what the available
+# plugins and allowed keywords are. That way we can see if the problem
 # is a missing plugin, a mistyped keyword, etc.
 
 # %%
@@ -202,8 +202,8 @@ except Exception as ex:
 # ## Using ExecutorCtx with Implicit Plugins
 #
 # Another way to use `ExecutorCtx` is to rely on its system for managing a
-# default serial and a default concurrent plugin. If you just care about
-# switching between those two defaults, then you just need to *exclude* the
+# default serial and a default concurrent plugin. If we just care about
+# switching between those two defaults, then we just need to *exclude* the
 # plugin name argument and change the `max_workers` argument.
 #
 # Here's the analogous initial code snippet.

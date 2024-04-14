@@ -12,7 +12,7 @@ Where?
 ======
 
 The first choice you'll face is where to put your plugin.
-We currently supports two choices:
+We currently supports two options:
 
 - in the Pyrseus repository, in the `pyrseus.ctx.plugins` package
 
@@ -26,7 +26,7 @@ available in a given installation if |mpi4py|_ is also installed.
 
 *Your Repository:* If you use your own repository, users will need to call
 `~pyrseus.ctx.registry.register_plugin` to teach `~pyrseus.ctx.mgr.ExecutorCtx`
-how to find your plugin.
+how to find your plugin. They can do so:
 
 - at the start of each applicable script and/or notebook,
 
@@ -55,9 +55,9 @@ Checklist
   examples of both.
 
 - Decide if you want to support an `~pyrseus.ctx.api.OnError` parameter to your
-  entry point's ``create`` method. If so, refer to that enum. Also take a look
-  at the existing plugins to see examples of how to implement that feature in
-  several different ways.
+  entry point's ``create`` method. If so, refer to that enum's documentation.
+  Also take a look at the existing plugins to see several different ways of
+  implementing the feature.
 
 If Adding to Pyrseus
 --------------------
@@ -79,8 +79,8 @@ repository itself.
     imports. See the existing plugins for how to detect the presence of their
     3rd party dependencies without actually importing any of them.
 
-  - It's fine for ``ENTRY_POINT.allowed_keywords``, ``ENTRY_POINT.create``, etc.
-    to trigger the 3rd party imports.
+  - Note: it's fine for ``ENTRY_POINT.allowed_keywords``,
+    ``ENTRY_POINT.create``, etc. to trigger the 3rd party imports.
 
 - If any extra 3rd party dependencies are needed, add them to
 
@@ -98,10 +98,10 @@ repository itself.
 If Adding to a Separate Repository
 ----------------------------------
 
-If you're creating a plugin in your own separate repository, follow these
-additional instructions.
+If you're creating a plugin in your own codebase, follow these additional
+instructions.
 
-- Create an instance object that implements
+- Create a singleton instance object that implements
   `~pyrseus.ctx.api.ExecutorPluginEntryPoint`'s protocol. You can put it
   wherever you want and call it whatever you want.
 

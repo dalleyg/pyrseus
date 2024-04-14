@@ -31,16 +31,16 @@ class OnExitProxy:
     submitted to the specific executor, and (b) replaces the executor's
     ``__exit__`` method with a customized one from this class.
 
-     - *When to Use:* This proxy is primarily useful for executors like
-       |loky|_'s reusable ones. Without this wrapper, their context managers can
-       unnecessarily wait on futures submitted by other managers or even
-       submitted outside the context block. See the reusable variant of the
-       `~pyrseus.ctx.plugins.loky` plugin for an example of using this proxy.
+    - *When to Use:* This proxy is primarily useful for executors like |loky|_'s
+      reusable ones. Without this wrapper, their context managers can
+      unnecessarily wait on futures submitted by other managers or even
+      submitted outside the context block. See the reusable variant of the
+      `~pyrseus.ctx.plugins.loky` plugin for an example of using this proxy.
 
-     - *When Not:* If you are using a normal executor where its context manager
-       is the sole owner of its worker pool, considering using the
-       lighter-weight `.shutdown_wait_on_error` and related functions instead of
-       this proxy class.
+    - *When Not:* If you are using a normal executor where its context manager
+      is the sole owner of its worker pool, considering using the lighter-weight
+      `.shutdown_wait_on_error` and related functions instead of this proxy
+      class.
 
     In the following example, ``e1_overblocks`` blocks until both its futures
     *and* ``e0``'s futures enter a final state:
@@ -184,15 +184,15 @@ def shutdown_wait_on_error(ctx: Executor, exc_info: ExcInfo):
     Simple callback helper that invokes ``ctx.shutdown(wait=True)`` if
     ``exc_info`` is all ``None``.
 
-     - *When to Use:* When making a plugin using `.SimpleEntryPoint`, consider
-       having your `~.SimpleEntryPoint.wrap_for_wait_on_error` return this
-       function as the second element of its returned tuple (the `.PreExitFunc`
-       part). It will typically provide the desired behavior if ``ctx`` is the
-       sole owner of its worker pool. See the `~pyrseus.ctx.plugins.process`
-       plugin for an example.
+    - *When to Use:* When making a plugin using `.SimpleEntryPoint`, consider
+      having your `~.SimpleEntryPoint.wrap_for_wait_on_error` return this
+      function as the second element of its returned tuple (the `.PreExitFunc`
+      part). It will typically provide the desired behavior if ``ctx`` is the
+      sole owner of its worker pool. See the `~pyrseus.ctx.plugins.process`
+      plugin for an example.
 
-     - *When Not:* For worker pools that may be shared between contexts,
-       consider using `.OnExitProxy` to wrap the first returned element instead.
+    - *When Not:* For worker pools that may be shared between contexts, consider
+      using `.OnExitProxy` to wrap the first returned element instead.
     """
     if exc_info != (None, None, None):
         ctx.shutdown(wait=True)
@@ -231,13 +231,13 @@ class SimpleEntryPoint(ExecutorPluginEntryPoint):
     ``allowed_keywords`` property's implementation. Plugin authors simply need
     to override the following properties (can be done with simple attributes):
 
-        - `.supports_serial`
-        - `.supports_concurrent`
-        - `.executor_module_name`
-        - `.executor_class_name`
-        - `.wrap_for_wait_on_error` (unless `.create` is overridden)
-        - `.wrap_for_cancel_on_error` (unless `.create` is overridden)
-        - `.wrap_for_kill_on_error` (unless `.create` is overridden)
+    - `.supports_serial`
+    - `.supports_concurrent`
+    - `.executor_module_name`
+    - `.executor_class_name`
+    - `.wrap_for_wait_on_error` (unless `.create` is overridden)
+    - `.wrap_for_cancel_on_error` (unless `.create` is overridden)
+    - `.wrap_for_kill_on_error` (unless `.create` is overridden)
     """
 
     @property

@@ -99,7 +99,7 @@ with ExecutorCtx("loky", 2) as exe:
 # %% [markdown]
 # ## Multiple Sets of Tasks
 #
-# If your script or notebook needs to run several separate sets of tasks, there
+# If your script or notebook needs to run multiple separate sets of tasks, there
 # are several approaches to choose from.
 
 # %% [markdown]
@@ -131,8 +131,7 @@ with ExecutorCtx("loky", 1, reusable=True) as exe:
     print(sum(col_sums))
 
 # %%
-# Both context managers used the same worker process, despite being in different
-# context managers.
+# Both context managers used the same worker process.
 assert cell_1_worker_pid == cell_2_worker_pid
 
 
@@ -209,11 +208,10 @@ except Exception as ex:
 # %% [markdown]
 # ### Dual Use Driver Functions with ExitStack
 #
-# Another common situation is to have a driver function where one wants it to
-# create and own its own executor by default like the "A Single Set of Tasks"
-# case, but also supports "Driver Functions that Take an Executor" for
-# interactive and/or more advanced usage. The `ExitStack` context manager can
-# make these dual-use driver functions easier to write.
+# Another common situation is to have a driver function that can work in either
+# the "A Single Set of Tasks" or the "Driver Functions that Take an Executor"
+# way. The `ExitStack` context manager can make these dual-use driver functions
+# easier to write.
 
 
 # %%
@@ -277,8 +275,8 @@ with ExecutorCtx("cpprocess", 1) as exe:  # loky would be fine too
 #    not being torn down, worker management threads or processes not being torn
 #    down, etc.
 #
-# Regardless, here is an example of using it with the dual-use driver from
-# the previous section:
+# Here is an example of using it with the dual-use driver from the previous
+# section:
 
 # %%
 print(my_dual_use_row_driver(exe=get_executor("cpprocess", 1)))

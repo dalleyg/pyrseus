@@ -29,29 +29,29 @@ sure to replicate them via the ``path`` argument that's passed to
 Plugin-specific Notes
 ---------------------
 
- - *Common Use Cases:* Where one would otherwise use
-   `~pyrseus.ctx.plugins.cpmpi4py` but where one wants to avoid depending on
-   |cloudpickle|_.
+- *Common Use Cases:* Where one would otherwise use
+  `~pyrseus.ctx.plugins.cpmpi4py` but where one wants to avoid depending on
+  |cloudpickle|_.
 
- - *Concurrency:* determined by the user's MPI configuration.
+- *Concurrency:* determined by the user's MPI configuration.
 
- - *Exceptions:* This plugin has standard exception-handling semantics: all
-   task-related exceptions are captured in the task's future.
+- *Exceptions:* This plugin has standard exception-handling semantics: all
+  task-related exceptions are captured in the task's future.
 
- - *3rd Party Dependencies:* |mpi4py|_
+- *3rd Party Dependencies:* |mpi4py|_
 
- - *Underlying Executor:* `.mpi4py.futures.MPIPoolExecutor`
+- *Underlying Executor:* `.mpi4py.futures.MPIPoolExecutor`
 
- - *Default max_workers:* determined by the user's MPI configuration. Often this
-   will require giving an explicit limit instead of relying on a pre-configured
-   default.
+- *Default max_workers:* determined by the user's MPI configuration. Often this
+  will require giving an explicit limit instead of relying on a pre-configured
+  default.
 
- - *Pickling:* `pickle`
+- *Pickling:* `pickle`
 
- - *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
-   `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
-   `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
+- *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
+  `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded to
+  `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
 
 See :doc:`../plugins` for a summary of related plugins, and installation notes.
 """
@@ -90,7 +90,7 @@ class EntryPoint(ExecutorPluginEntryPoint):
         self,
         max_workers: Optional[int] = None,
         on_error: OnErrorLike = OnError.CANCEL_FUTURES,
-        **kwargs
+        **kwargs,
     ):
         from mpi4py.futures import MPIPoolExecutor
 

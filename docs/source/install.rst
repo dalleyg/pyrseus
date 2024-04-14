@@ -4,8 +4,7 @@
 Installing Pyrseus
 ##################
 
-Pyrseus supports Linux, macOS, and Windows. It is highly modular, allowing you
-to install only the parts you actually need.
+Pyrseus supports Linux, macOS, and Windows.
 
 Using pip
 =========
@@ -24,12 +23,19 @@ Note that Pyrseus will auto-detect those packages, so if they're installed
 through other means, then the relevant Pyrseus plugins will be automatically
 enabled.
 
+.. note::
+
+   To use the |mpi4py|_ plugin, first ensure that an underlying MPI library has
+   been installed. See the `setup-mpi.sh
+   <https://github.com/mpi4py/setup-mpi/blob/master/setup-mpi.sh>`_ script
+   provided by |mpi4py|_ for one way to do this.
+
 From a Git Clone
 ================
 
 Alternatively, you can clone the Pyrseus repository and either use it directly
 by adding its ``src/`` directory to your ``PYTHONPATH`` or by installing it from
-the source clone. Here's how to do the latter::
+a source clone. Here's how to do the latter::
 
     # Clone the repository.
     git clone git@github.com:dalleyg/pyrseus.git
@@ -46,3 +52,10 @@ the source clone. Here's how to do the latter::
 
     # Install to your Python interpreter.
     python -m pip --find-links=dist pyrseus
+
+.. note::
+
+   To use the |mpi4py|_ plugin, first ensure that an underlying MPI library has
+   been installed. See the `setup-mpi.sh
+   <https://github.com/mpi4py/setup-mpi/blob/master/setup-mpi.sh>`_ script
+   provided by |mpi4py|_ for one way to do this.
