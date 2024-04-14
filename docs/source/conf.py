@@ -11,6 +11,12 @@ from sphinx.ext import autodoc
 # older version installed.
 sys.path[:] = ["../../src", "../../tests/"] + sys.path
 
+# -- Hack to create paired notebook files so that myst_nb can find them.
+
+from jupytext.cli import jupytext
+
+jupytext(("--update", "--to", "ipynb", "notebooks/*.py"))
+
 # -- Project information
 
 # If this import fails, rerun configure.py at top of the repo.
