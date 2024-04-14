@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  PIP: python -m pip install --root-user-action=ignore
-
 jobs:
   build:
 
@@ -61,9 +58,9 @@ jobs:
 
     - name: Install required dependencies
       run: |
-        $PIP --upgrade pip
-        $PIP -r requirements.txt
-        $PIP -r dev-requirements.txt
+        python -m pip install --root-user-action=ignore --upgrade pip
+        python -m pip install --root-user-action=ignore -r requirements.txt
+        python -m pip install --root-user-action=ignore -r dev-requirements.txt
 
     - name: Setup mpi (if include-optionals)
       if: matrix.include-optionals
@@ -77,12 +74,12 @@ jobs:
     - name: Install optional dependencies (if include-optionals)
       if: matrix.include-optionals
       run: |
-        $PIP -r optional-requirements.txt
+        python -m pip install --root-user-action=ignore -r optional-requirements.txt
 
     - name: Install non-win32 optional dependencies (if include-optionals)
       if: ${{ matrix.include-optionals && (matrix.os != 'windows-latest') }}
       run: |
-        $PIP -r optional-non-win32-requirements.txt
+        python -m pip install --root-user-action=ignore -r optional-non-win32-requirements.txt
 
     - name: Lint with ruff
       if: matrix.include-optionals
