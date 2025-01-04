@@ -16,6 +16,32 @@ class CpInlineExecutor(InlineExecutor):
     Pickle-testing variant of `.InlineExecutor`, using the 3rd party
     |cloudpickle|_ module.
 
+    Summary
+    -------
+
+    - *Common Use Cases:* serially troubleshooting pickling problems for
+      multi-process executors that use |cloudpickle|_ for serialization.
+
+    - *Concurrency:* This is a non-concurrent, serial-only executor. All tasks
+      are immediately run in the same process and thread they were submitted in.
+
+    - *Exceptions:* This plugin has standard exception-handling semantics: all
+      task-related exceptions are captured in the task's future.
+
+    - *3rd Party Dependencies:* |cloudpickle|_
+
+    - *Default max_workers:* Not applicable.
+
+    - *Pickling:* This executor takes extra time to pickle and unpickle all
+      tasks and their results. If you aren't troubleshooting such issues and
+      prefer lower overhead, consider using
+      `~pyrseus.executors.inline.InlineExecutor` instead.
+
+    - *OnError handling:* Not applicable.
+
+    Details
+    -------
+
     This variant pickles each submitted task and the task's results, using the
     |cloudpickle|_ module that understands things like lambdas. This is
     primarily useful for troubleshooting pickling problems occurring in

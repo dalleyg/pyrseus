@@ -15,6 +15,35 @@ class PNoCatchExecutor(NoCatchExecutor):
         Pickle-testing variant of `.NoCatchExecutor`, using the built-in
         `pickle` module.
 
+        Summary
+        -------
+
+        - *Common Use Cases:* for troubleshooting with extra `pickle` testing,
+          as a fail-fast variant of
+          `~pyrseus.executors.pinline.PInlineExecutor`.
+
+        - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks
+          are immediately run in the same process and thread they were submitted
+          in.
+
+        - *Exceptions:* This plugin has *non-standard* exception-handling
+          semantics: no task exceptions are caught and captured in their
+          futures. Exceptions are propagated out immediately.
+
+        - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+
+        - *Default max_workers:* Not applicable.
+
+        - *Pickling:* This executor takes extra time to pickle and unpickle all
+          tasks and their results. If you aren't troubleshooting such issues and
+          prefer lower overhead, consider using the
+          `~pyrseus.ctx.plugins.nocatch` plugin instead.
+
+        - *OnError handling:* Not applicable.
+
+        Details
+        -------
+
         This variant pickles each submitted task and the task's results, using
         the built-in `pickle` module. This is primarily useful for
         troubleshooting pickling problems occurring in multi-process executors,

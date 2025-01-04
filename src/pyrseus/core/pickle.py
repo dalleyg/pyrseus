@@ -1,20 +1,13 @@
 """
-Helpers for writing `~concurrent.futures.Executor` classes and
-`~pyrseus.ctx.mgr.ExecutorCtx` plugins that need to interact with `pickle`-based
-serialization.
+Helpers for writing `~concurrent.futures.Executor` classes that need to interact
+with `pickle`-based serialization.
 
 There are two main use cases:
 
 - To change the serializer to a more powerful one like |cloudpickle|_. For
-  examples, see the source code of:
-
-  - `pyrseus.executors.cpprocess`: wrapper for
-    `~concurrent.futures.ProcessPoolExecutor` that uses |cloudpickle|_ instead
-    of `pickle` for task and result serialization.
-
-  - `pyrseus.ctx.plugins.cpmpi4py`: wrapper for
-    `~mpi4py.futures.MPIPoolExecutor` that uses |cloudpickle|_ instead of
-    `pickle` for task and result serialization.
+  examples, see the source code of `pyrseus.executors.cpprocess`. It is a
+  wrapper for `~concurrent.futures.ProcessPoolExecutor` that uses |cloudpickle|_
+  instead of `pickle` for task and result serialization.
 
 - To help users troubleshoot serialization problems. For examples, see the
   source code of:

@@ -20,9 +20,41 @@ Ret = TypeVar("Ret")
 class InlineExecutor(Executor):
     def __init__(self):
         """
-        Creates an `~concurrent.futures.Executor` that evaluates the task
-        immediately upon submission, trapping exceptions like normal executors
-        do.
+        An `~concurrent.futures.Executor` that evaluates the task immediately
+        upon submission, trapping exceptions like normal executors do.
+
+        Summary
+        -------
+
+        - *Common Use Cases:*
+
+        - Light workloads: this plugin is useful for avoiding concurrency
+          overhead when running small batches of tasks. This lets developers
+          avoid the alternative of rewriting all of their control flow to not
+          use executors at all, just to get serial execution.
+
+        - Troubleshooting: since tasks are executed immediately and within the
+          same thread, tracing through the task code in a debugger is trivially
+          easy.
+
+        - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks
+          are immediately run in the same process and thread they were submitted
+          in.
+
+        - *Exceptions:* This plugin has standard exception-handling semantics:
+          all task-related exceptions are captured in the task's future.
+
+        - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+          Furthermore, it has minimal dependencies to other Pyrseus subpackages.
+
+        - *Default max_workers:* Not applicable.
+
+        - *Pickling:* This plugin does not perform any pickling.
+
+        - *OnError handling:* Not applicable.
+
+        Details
+        -------
 
         As with the only built-in within-process executor,
         `~concurrent.futures.ThreadPoolExecutor`, arbitrary callables can be

@@ -1,5 +1,5 @@
 Pyrseus: Serial Executors and the `ExecutorCtx` Factory
-======================================================
+=======================================================
 
 Pyrseus extends Python's `concurrent.futures` asynchronous and concurrent
 programming package with
@@ -42,8 +42,8 @@ guide](https://pyrseus.readthedocs.io/en/latest/install.html).
 Full Documentation
 ------------------
 
-For full documenation, see the [Pyrseus
+For full documentation, see the [Pyrseus
 Documentation](https://pyrseus.readthedocs.io/). It includes installation
 instructions, a detailed summary of all of the executor plugins, guidance for
-writing your own plugins, API documenation, and several notebooks showing
+writing your own plugins, API documentation, and several notebooks showing
 example use cases.

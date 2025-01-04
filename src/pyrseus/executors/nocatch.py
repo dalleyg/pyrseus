@@ -16,9 +16,35 @@ Ret = TypeVar("Ret")
 class NoCatchExecutor(Executor):
     def __init__(self):
         """
-        Creates a simple serial `~concurrent.futures.Executor` that evaluates
-        tasks immediately upon submission, and does *not* capture task
-        exceptions in their futures.
+        A simple serial `~concurrent.futures.Executor` that evaluates tasks
+        immediately upon submission, and does *not* capture task exceptions in
+        their futures.
+
+        Summary
+        -------
+
+        - *Common Use Cases:* for troubleshooting, as a fail-fast variant of the
+          `~pyrseus.executors.inline.InlineExecutor`.
+
+        - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks
+          are immediately run in the same process and thread they were submitted
+          in.
+
+        - *Exceptions:* This plugin has *non-standard* exception-handling
+          semantics: no task exceptions are caught and captured in their
+          futures. Exceptions are propagated out immediately.
+
+        - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
+          Furthermore, it has minimal dependencies to other Pyrseus subpackages.
+
+        - *Default max_workers:* Not applicable.
+
+        - *Pickling:* This plugin does not perform any pickling.
+
+        - *OnError handling:* Not applicable.
+
+        Details
+        -------
 
         This is primarily useful for troubleshooting when one wants to enter a
         debugger as early and as easily as possible, at the cost of non-standard

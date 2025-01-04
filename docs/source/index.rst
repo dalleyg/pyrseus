@@ -55,3 +55,35 @@ Usage Examples
    notebooks/debugging_example
    notebooks/on_error
    notebooks/get_executor
+
+TODO
+====
+
+ - [ ] get rid of the meta executor and plugin system
+ - [ ] update
+    - [ ] toplevel
+      - [ ] optional-non-win32-requirements.txt: break up?
+      - [ ] optional-requirements.txt: break up?
+      - [ ] pyproject.toml: rework optionals
+      - [ ] README.md: simplify
+      - [ ] requirements.txt: make cloudpickle optional, document what uses this file
+    - [ ] docs/source/
+      - [ ] contributing.rst
+      - [ ] index.rst
+      - [ ] install.rst
+      - [ ] plugins.rst
+      - [ ] writingplugins.rst (delete)
+      - [ ] notebooks/*
+    - [ ] src/pyrseus/
+      - [x] interactive.py: delete
+      - [ ] __init__.py: decide how to handle optional executors that might not
+            be installed
+      - [ ] core/
+        - [x] pickle.py
+      - [ ] executors/*
+      - [ ] ctx/
+        - [ ] plugins/: migrate
+        - [ ] *.py: delete
+          - [ ] api.py: migrate OnError stuff if it's still relevant
+      - [ ] tests/*
+ - [ ] grep for plugin and ExecutorCtx

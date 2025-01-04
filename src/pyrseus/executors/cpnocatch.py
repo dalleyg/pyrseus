@@ -16,7 +16,34 @@ class CpNoCatchExecutor(NoCatchExecutor):
     Pickle-testing variant of `.NoCatchExecutor`, using the 3rd party
     |cloudpickle|_ module.
 
-    This variant pickles each submitted task and the task's results, using the
+    Summary
+    -------
+
+    - *Common Use Cases:* for troubleshooting with extra |cloudpickle|_ testing,
+      as a fail-fast variant of `~pyrseus.executors.cpinline.CpInlineExecutor`.
+
+    - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
+      immediately run in the same process and thread they were submitted in.
+
+    - *Exceptions:* This plugin has *non-standard* exception-handling semantics:
+      no task exceptions are caught and captured in their futures. Exceptions
+      are propagated out immediately.
+
+    - *3rd Party Dependencies:* |cloudpickle|_
+
+    - *Default max_workers:* Not applicable.
+
+    - *Pickling:* This executor takes extra time to pickle and unpickle all
+      tasks and their results. If you aren't troubleshooting such issues and
+      prefer lower overhead, consider using the `~pyrseus.ctx.plugins.nocatch`
+      plugin instead.
+
+    - *OnError handling:* Irrelevant because all tasks are run immediately.
+
+    Details
+    -------
+
+    This executor pickles each submitted task and the task's results, using the
     built-in |cloudpickle|_ module that understands things like lambdas. This is
     primarily useful for troubleshooting pickling problems occurring in
     multi-process executors, by performing the pickling and unpickling locally.
