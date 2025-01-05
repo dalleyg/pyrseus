@@ -8,6 +8,7 @@
 cloudpickle>=1.6.0
 furo
 jupytext
+loky
 myst_nb
 sphinx-design
 sphinx-inline-tabs

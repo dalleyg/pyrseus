@@ -57,38 +57,36 @@ TODO
 ====
 
  - [ ] get rid of the meta executor and plugin system
- - [ ] update
-    - [ ] toplevel
-      - [ ] optional-non-win32-requirements.txt: break up?
-      - [ ] optional-requirements.txt: break up?
-      - [ ] pyproject.toml: rework optionals
-      - [ ] README.md: simplify
-      - [ ] requirements.txt: make cloudpickle optional, document what uses this file
-    - [ ] docs/source/
-      - [x] contributing.rst
-      - [ ] index.rst
-      - [x] install.rst
-      - [ ] plugins.rst
-      - [x] writingplugins.rst (deleted)
-      - [ ] notebooks/*
-    - [ ] src/pyrseus/
-      - [x] interactive.py: delete
-      - [ ] __init__.py: decide how to handle optional executors that might not
-            be installed
-      - [ ] core/
-        - [x] pickle.py
-        - [x] sys.py
-      - [ ] executors/*
-      - [ ] ctx/
-        - [ ] plugins/: migrate
-        - [ ] *.py: delete
-          - [ ] api.py: migrate OnError stuff if it's still relevant
-      - [ ] tests/*
- - [ ] grep
-    - [ ] plugin
-    - [ ] ExecutorCtx
-    - [ ] loky
-    - [ ] mpi4py
-    - [ ] ipyparallel
- - [ ] release notes
-    - [ ] bump version number
+  - [ ] update
+      - [ ] toplevel
+        - [x] optional-non-win32-requirements.txt (deleted)
+        - [x] optional-requirements.txt (deleted)
+        - [x] pyproject.toml (simplified)
+        - [ ] README.md: simplify
+        - [x] requirements.txt (simplified)
+      - [ ] docs/source/
+        - [ ] conf.py
+        - [x] contributing.rst
+        - [ ] index.rst
+        - [x] install.rst
+        - [ ] plugins.rst
+        - [x] writingplugins.rst (deleted)
+        - [ ] notebooks/*
+      - [x] src/pyrseus/
+        - [x] interactive.py (deleted)
+        - [x] __init__.py
+        - [x] core/
+          - [x] pickle.py
+          - [x] sys.py
+        - [x] executors/*
+        - [x] ctx/ (deleted all, including OnError stuff for now)
+        - [x] tests/*
+  - [ ] grep
+      - [ ] plugin
+      - [ ] ExecutorCtx
+      - [ ] loky
+      - [ ] mpi4py
+      - [ ] ipyparallel
+      - [ ] OnError
+  - [ ] release notes
+      - [x] bump version number

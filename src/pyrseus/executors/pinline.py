@@ -37,8 +37,6 @@ class PInlineExecutor(InlineExecutor):
           prefer lower overhead, consider using
           `~pyrseus.executors.inline.InlineExecutor` instead.
 
-        - *OnError handling:* Not applicable.
-
         Details
         -------
 

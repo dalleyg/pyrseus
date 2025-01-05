@@ -36,16 +36,6 @@ class CpProcessPoolExecutor(ProcessPoolExecutor):
 
     - *Pickling:* |cloudpickle|_
 
-    - *OnError handling:* Fully supports `~pyrseus.ctx.api.OnError.WAIT` and
-      `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` modes.
-      `~pyrseus.ctx.api.OnError.KILL_WORKERS` mode is automatically downgraded
-      to `~pyrseus.ctx.api.OnError.CANCEL_FUTURES`.
-
-      - By default, `~concurrent.futures.ProcessPoolExecutor`, pre-queues one
-        extra task, making it uncancellable; so in
-        `~pyrseus.ctx.api.OnError.CANCEL_FUTURES` mode, that pre-queued task
-        will still be run.
-
     Details
     -------
 

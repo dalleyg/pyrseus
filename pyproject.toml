@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries",
 ]
-description = "ExecutorCtx factory, its plugins, and various serial Executors"
+description = "concurrent.futures.Executor subclasses for serial execution and for troubleshooting"
 dependencies = [
     "cloudpickle>=1.6.0",
     "psutil",
@@ -83,8 +83,6 @@ deps =
 setenv =
     PYTHONPATH = {toxinidir}:{toxinidir}/tests
     RDMAV_FORK_SAFE = 1
-    # Suppress a spurious Jupyter warning when using ipyparallel.
-    JUPYTER_PLATFORM_DIRS = 1
 
 # Additional setup for the "*-base-*" unit tests.
 [testenv:py{3.9,3.10,3.11,3.12,py3}-base-{linux,macos,windows}]

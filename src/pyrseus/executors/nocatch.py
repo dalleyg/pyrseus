@@ -41,8 +41,6 @@ class NoCatchExecutor(Executor):
 
         - *Pickling:* This plugin does not perform any pickling.
 
-        - *OnError handling:* Not applicable.
-
         Details
         -------
 

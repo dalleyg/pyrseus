@@ -38,8 +38,6 @@ class CpNoCatchExecutor(NoCatchExecutor):
       prefer lower overhead, consider using the `~pyrseus.ctx.plugins.nocatch`
       plugin instead.
 
-    - *OnError handling:* Irrelevant because all tasks are run immediately.
-
     Details
     -------
 

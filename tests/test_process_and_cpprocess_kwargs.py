@@ -15,7 +15,7 @@ from unittest import SkipTest
 
 import pytest
 from pyrseus.core.sys import is_mp_start_method_supported
-from pyrseus.executors.cpprocess import CpProcessPoolExecutor
+from pyrseus import CpProcessPoolExecutor
 
 POOL_PARAMS = inspect.signature(ProcessPoolExecutor).parameters
 """

@@ -39,8 +39,6 @@ class PNoCatchExecutor(NoCatchExecutor):
           prefer lower overhead, consider using the
           `~pyrseus.ctx.plugins.nocatch` plugin instead.
 
-        - *OnError handling:* Not applicable.
-
         Details
         -------
 
