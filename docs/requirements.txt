@@ -5,12 +5,9 @@
 #    python -m pip install -r docs/requirements.txt
 #
 # See contributing.rst for details.
-cloudpickle
+cloudpickle>=1.6.0
 furo
-ipyparallel
 jupytext
-loky
-mpi4py
 myst_nb
 sphinx-design
 sphinx-inline-tabs

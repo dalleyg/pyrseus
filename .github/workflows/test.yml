@@ -13,35 +13,46 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Test basic compatibility across all supported Python versions. We
+          # only do this on Linux to reduce the GitHub actions cost.
           - os: ubuntu-latest
+            include-optionals: false
             python-version: "3.9"
-            include-optionals: false
             os-type: linux
           - os: ubuntu-latest
+            include-optionals: false
             python-version: "3.10"
-            include-optionals: false
             os-type: linux
           - os: ubuntu-latest
+            include-optionals: false
             python-version: "3.11"
-            include-optionals: false
             os-type: linux
           - os: ubuntu-latest
+            include-optionals: false
             python-version: "3.12"
-            include-optionals: false
             os-type: linux
-
           - os: ubuntu-latest
-            python-version: "3.10"
-            include-optionals: true
+            include-optionals: false
+            python-version: "3.13"
+            os-type: linux
+          - os: ubuntu-latest
+            include-optionals: false
+            python-version: "3.14"
             os-type: linux
 
-          - os: macos-latest
-            python-version: "3.10"
+          # Perform all tests on the three supported operating systems, for the
+          # one recent Python version.
+          - os: ubuntu-latest
             include-optionals: true
+            python-version: "3.12"
+            os-type: linux
+          - os: macos-latest
+            include-optionals: true
+            python-version: "3.12"
             os-type: macos
           - os: windows-latest
-            python-version: "3.10"
             include-optionals: true
+            python-version: "3.12"
             os-type: windows
 
     runs-on: ${{ matrix.os }}
@@ -61,25 +72,6 @@ jobs:
         python -m pip install --root-user-action=ignore --upgrade pip
         python -m pip install --root-user-action=ignore -r requirements.txt
         python -m pip install --root-user-action=ignore -r dev-requirements.txt
-
-    - name: Setup mpi (if include-optionals)
-      if: matrix.include-optionals
-      uses: mpi4py/setup-mpi@v1
-      with:
-        # There's something funny about either how setup-mpi sets up mpich
-        # in github's actions environment. We get segfaults on ubuntu-latest
-        # if we omit this override.
-        mpi: ${{ matrix.os == 'windows-latest' && 'msmpi' || 'openmpi' }}
-
-    - name: Install optional dependencies (if include-optionals)
-      if: matrix.include-optionals
-      run: |
-        python -m pip install --root-user-action=ignore -r optional-requirements.txt
-
-    - name: Install non-win32 optional dependencies (if include-optionals)
-      if: ${{ matrix.include-optionals && (matrix.os != 'windows-latest') }}
-      run: |
-        python -m pip install --root-user-action=ignore -r optional-non-win32-requirements.txt
 
     - name: Lint with ruff
       if: matrix.include-optionals

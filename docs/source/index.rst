@@ -20,7 +20,6 @@ programming package with:
    Pyrseus Home<self>
    install
    plugins
-   writingplugins
    contributing
 
 General Information
@@ -29,8 +28,6 @@ General Information
 - :doc:`install`
 
 - :doc:`plugins`
-
-- :doc:`writingplugins`
 
 - :doc:`contributing`
 
@@ -68,11 +65,11 @@ TODO
       - [ ] README.md: simplify
       - [ ] requirements.txt: make cloudpickle optional, document what uses this file
     - [ ] docs/source/
-      - [ ] contributing.rst
+      - [x] contributing.rst
       - [ ] index.rst
-      - [ ] install.rst
+      - [x] install.rst
       - [ ] plugins.rst
-      - [ ] writingplugins.rst (delete)
+      - [x] writingplugins.rst (deleted)
       - [ ] notebooks/*
     - [ ] src/pyrseus/
       - [x] interactive.py: delete
@@ -80,10 +77,18 @@ TODO
             be installed
       - [ ] core/
         - [x] pickle.py
+        - [x] sys.py
       - [ ] executors/*
       - [ ] ctx/
         - [ ] plugins/: migrate
         - [ ] *.py: delete
           - [ ] api.py: migrate OnError stuff if it's still relevant
       - [ ] tests/*
- - [ ] grep for plugin and ExecutorCtx
+ - [ ] grep
+    - [ ] plugin
+    - [ ] ExecutorCtx
+    - [ ] loky
+    - [ ] mpi4py
+    - [ ] ipyparallel
+ - [ ] release notes
+    - [ ] bump version number

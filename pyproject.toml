@@ -12,6 +12,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries",
 ]
 description = "ExecutorCtx factory, its plugins, and various serial Executors"
@@ -25,17 +26,11 @@ keywords = [
     "executor",
     "InlineExecutor",
     "Executor",
-    "ExecutorCtx",
     "NoCatchExecutor",
 ]
 license = "MIT"
 requires-python = ">=3.9"
 readme = "README.md"
-
-[project.optional-dependencies]
-ipyparallel = ["ipyparallel"]
-loky = ["loky"]
-mpi4py = ["mpi4py>=3.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/dalleyg/pyrseus"
@@ -43,7 +38,7 @@ Issues = "https://github.com/dalleyg/pyrseus/issues"
 
 [tool.black]
 line-length = 88
-target-version = ['py39', 'py310', 'py311', 'py312']
+target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
 
 [tool.ruff]
 line-length = 88
@@ -106,20 +101,12 @@ platform =
     linux: linux
     macos: darwin
     windows: win32
-deps =
-    {[testenv]deps}
-    -r optional-requirements.txt
-    linux,macos: -r optional-non-win32-requirements.txt
 commands =
     pytest {posargs:-l --maxfail=5}
 
 [testenv:coverage]
 platform =
     linux: linux
-deps =
-    {[testenv]deps}
-    -r optional-requirements.txt
-    -r optional-non-win32-requirements.txt
 commands =
     pytest {posargs:-l --maxfail=5 --cov --cov-report=html}
 
@@ -139,8 +126,6 @@ platform =
     windows: win32
 deps =
     {[testenv]deps}
-    -r optional-requirements.txt
-    linux,macos: -r optional-non-win32-requirements.txt
     ipython
 commands =
     ipython
