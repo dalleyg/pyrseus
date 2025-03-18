@@ -72,10 +72,7 @@ autodoc.ClassDocumenter = MockedClassDocumenter
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
-    "dill": ("https://dill.readthedocs.io/en/latest", None),
-    "ipyparallel": ("https://ipyparallel.readthedocs.io/en/latest", None),
     "loky": ("https://loky.readthedocs.io/en/stable", None),
-    "mpi4py": ("https://mpi4py.readthedocs.io/en/stable", None),
 }
 
 # -- Options for HTML output
@@ -104,23 +101,11 @@ rst_epilog = """
 .. |cloudpickle| replace:: cloudpickle
 .. _cloudpickle: https://github.com/cloudpipe/cloudpickle
 
-.. |dill| replace:: dill
-.. _dill: https://dill.readthedocs.io
-
-.. |ipyparallel| replace:: ipyparallel
-.. _ipyparallel: https://ipyparallel.readthedocs.io
-
 .. |loky| replace:: loky
 .. _loky: https://loky.readthedocs.io
 
-.. |mpi4py| replace:: mpi4py
-.. _mpi4py: https://mpi4py.readthedocs.io
-
 .. |psutil| replace:: psutil
 .. _psutil: https://psutil.readthedocs.io
-
-.. |nb_get_executor| replace:: ExecutorCtx vs. get_executor
-.. _nb_get_executor: ../notebooks/get_executor.html
 
 """
 

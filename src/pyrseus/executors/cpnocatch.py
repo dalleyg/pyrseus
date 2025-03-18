@@ -22,21 +22,19 @@ class CpNoCatchExecutor(NoCatchExecutor):
     - *Common Use Cases:* for troubleshooting with extra |cloudpickle|_ testing,
       as a fail-fast variant of `~pyrseus.executors.cpinline.CpInlineExecutor`.
 
-    - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks are
-      immediately run in the same process and thread they were submitted in.
+    - *Concurrency:* This is a non-concurrent, serial-only executor. All tasks
+      are immediately run in the same process and thread they were submitted in.
 
-    - *Exceptions:* This plugin has *non-standard* exception-handling semantics:
-      no task exceptions are caught and captured in their futures. Exceptions
-      are propagated out immediately.
-
-    - *3rd Party Dependencies:* |cloudpickle|_
+    - *Exceptions:* This executor has *non-standard* exception-handling
+      semantics: no task exceptions are caught and captured in their futures.
+      Exceptions are propagated out immediately.
 
     - *Default max_workers:* Not applicable.
 
     - *Pickling:* This executor takes extra time to pickle and unpickle all
       tasks and their results. If you aren't troubleshooting such issues and
-      prefer lower overhead, consider using the `~pyrseus.ctx.plugins.nocatch`
-      plugin instead.
+      prefer lower overhead, consider using
+      `~pyrseus.executors.nocatch.NoCatchExecutor` instead.
 
     Details
     -------
@@ -70,7 +68,7 @@ class CpNoCatchExecutor(NoCatchExecutor):
         ...     print(fut.result())
         this works if using cloudpickle for pickling
 
-    See :doc:`../plugins` for a list of related executors.
+    See :doc:`../executors` for a list of related executors.
     """
 
     def submit(self, fcn, /, *args, **kwargs):

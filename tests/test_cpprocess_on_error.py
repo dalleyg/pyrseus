@@ -1,6 +1,5 @@
 """
-Verifies that `.CpProcessPoolExecutor` handles all of its ``on_error`` modes
-correctly.
+Checks for `.CpProcessPoolExecutor`'s error handling.
 """
 
 import os

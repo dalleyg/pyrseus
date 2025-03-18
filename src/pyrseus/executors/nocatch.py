@@ -26,20 +26,17 @@ class NoCatchExecutor(Executor):
         - *Common Use Cases:* for troubleshooting, as a fail-fast variant of the
           `~pyrseus.executors.inline.InlineExecutor`.
 
-        - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks
-          are immediately run in the same process and thread they were submitted
-          in.
+        - *Concurrency:* This is a non-concurrent, serial-only executor. All
+          tasks are immediately run in the same process and thread they were
+          submitted in.
 
-        - *Exceptions:* This plugin has *non-standard* exception-handling
+        - *Exceptions:* This executor has *non-standard* exception-handling
           semantics: no task exceptions are caught and captured in their
           futures. Exceptions are propagated out immediately.
 
-        - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
-          Furthermore, it has minimal dependencies to other Pyrseus subpackages.
-
         - *Default max_workers:* Not applicable.
 
-        - *Pickling:* This plugin does not perform any pickling.
+        - *Pickling:* This executor does not perform any pickling.
 
         Details
         -------
@@ -62,7 +59,7 @@ class NoCatchExecutor(Executor):
             ...
             RuntimeError: An exception was raised by our function.
 
-        See :doc:`../plugins` for a list of related executors.
+        See :doc:`../executors` for a list of related executors.
         """
         self._closing = False
 

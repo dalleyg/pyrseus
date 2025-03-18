@@ -21,14 +21,12 @@ class PInlineExecutor(InlineExecutor):
         - *Common Use Cases:* troubleshooting pickling problems for other
           executors that use `pickle` for serialization.
 
-        - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks
-          are immediately run in the same process and thread they were submitted
-          in.
+        - *Concurrency:* This is a non-concurrent, serial-only executor. All
+          tasks are immediately run in the same process and thread they were
+          submitted in.
 
-        - *Exceptions:* This plugin has standard exception-handling semantics:
+        - *Exceptions:* This executor has standard exception-handling semantics:
           all task-related exceptions are captured in the task's future.
-
-        - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
 
         - *Default max_workers:* Not applicable.
 
@@ -76,7 +74,7 @@ class PInlineExecutor(InlineExecutor):
         Because the failure happens within the same process and thread as the
         submit call, it is easy to debug by tracing into it with a debugger.
 
-        See :doc:`../plugins` for a list of related executors.
+        See :doc:`../executors` for a list of related executors.
 
         :param round_trip_kwargs: keyword arguments passed to
             `call_with_round_trip_pickling` for each submitted task.

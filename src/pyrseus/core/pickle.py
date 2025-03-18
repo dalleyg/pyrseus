@@ -159,7 +159,7 @@ def try_pickle_round_trip(
 @cache
 def get_round_trip_keywords():
     """
-    Helper for creating plugins that wrap `try_pickle_round_trip` and/or
+    Helper for creating executors that wrap `try_pickle_round_trip` and/or
     `call_with_round_trip_pickling`.
 
     >>> sorted(get_round_trip_keywords())

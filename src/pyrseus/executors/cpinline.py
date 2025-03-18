@@ -25,10 +25,8 @@ class CpInlineExecutor(InlineExecutor):
     - *Concurrency:* This is a non-concurrent, serial-only executor. All tasks
       are immediately run in the same process and thread they were submitted in.
 
-    - *Exceptions:* This plugin has standard exception-handling semantics: all
+    - *Exceptions:* This executor has standard exception-handling semantics: all
       task-related exceptions are captured in the task's future.
-
-    - *3rd Party Dependencies:* |cloudpickle|_
 
     - *Default max_workers:* Not applicable.
 
@@ -69,7 +67,7 @@ class CpInlineExecutor(InlineExecutor):
         ...     print(fut.result())
         this works if using cloudpickle for pickling
 
-    See :doc:`../plugins` for a list of related executors.
+    See :doc:`../executors` for a list of related executors.
     """
 
     def submit(self, fcn, /, *args, **kwargs):

@@ -22,22 +22,20 @@ class PNoCatchExecutor(NoCatchExecutor):
           as a fail-fast variant of
           `~pyrseus.executors.pinline.PInlineExecutor`.
 
-        - *Concurrency:* This is a non-concurrent, serial-only plugin. All tasks
-          are immediately run in the same process and thread they were submitted
-          in.
+        - *Concurrency:* This is a non-concurrent, serial-only executor. All
+          tasks are immediately run in the same process and thread they were
+          submitted in.
 
-        - *Exceptions:* This plugin has *non-standard* exception-handling
+        - *Exceptions:* This executor has *non-standard* exception-handling
           semantics: no task exceptions are caught and captured in their
           futures. Exceptions are propagated out immediately.
-
-        - *3rd Party Dependencies:* This plugin has no 3rd party dependencies.
 
         - *Default max_workers:* Not applicable.
 
         - *Pickling:* This executor takes extra time to pickle and unpickle all
           tasks and their results. If you aren't troubleshooting such issues and
-          prefer lower overhead, consider using the
-          `~pyrseus.ctx.plugins.nocatch` plugin instead.
+          prefer lower overhead, consider using
+          `~pyrseus.executors.nocatch.NoCatchExecutor` instead.
 
         Details
         -------
@@ -77,7 +75,7 @@ class PNoCatchExecutor(NoCatchExecutor):
         Because the failure happens within the same process and thread as the
         submit call, it is easy to debug by tracing into it with a debugger.
 
-        See :doc:`../plugins` for a list of related executors.
+        See :doc:`../executors` for a list of related executors.
         """
         super().__init__()
         self._round_trip_kwargs = round_trip_kwargs

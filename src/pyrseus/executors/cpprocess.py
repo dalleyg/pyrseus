@@ -25,10 +25,8 @@ class CpProcessPoolExecutor(ProcessPoolExecutor):
 
     - *Concurrency:* Each worker runs in its own process.
 
-    - *Exceptions:* This plugin has standard exception-handling semantics: all
+    - *Exceptions:* This executor has standard exception-handling semantics: all
       task-related exceptions are captured in the task's future.
-
-    - *3rd Party Dependencies:* |cloudpickle|_
 
     - *Default max_workers*:* Uses `~pyrseus.core.sys.get_num_available_cores`
       instead of `multiprocessing.cpu_count`, respecting the CPU affinity mask
@@ -69,7 +67,7 @@ class CpProcessPoolExecutor(ProcessPoolExecutor):
         ...     print(fut.result())
         123
 
-    See :doc:`../plugins` for a list of related executors.
+    See :doc:`../executors` for a list of related executors.
     """
 
     def submit(self, fcn, /, *args, **kwargs):

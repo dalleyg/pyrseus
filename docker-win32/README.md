@@ -75,10 +75,9 @@ Now we need to setup a Docker image.
        PS C:\pyrseus> docker run -it --rm pyrseus-py311-win32 docker-win32\test.bat
 
 - If you'd like to troubleshoot further, replace `docker-win32\test.bat` with
-  `cmd` or `powershell`. E.g. to test only the `pyrseus-ctx` subpackage:
+  `cmd` or `powershell`. E.g.
 
        PS C:\pyrseus> docker run -it --rm pyrseus-py311-win32 cmd
-       C:\usr\src\myapp> cd pyrseus-ctx
        C:\usr\src\myapp> tox
 
 - To test any changes made on the WSL side, repeat all of the prior
