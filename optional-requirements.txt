@@ -1,3 +1,0 @@
-# For the plugin features that work on all platforms (linux, macos, windows).
-cloudpickle
-loky

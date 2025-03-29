@@ -5,7 +5,7 @@
   white-space: normal;
 }
 
-/* Tighten up the whitespace in tables, especially the one in plugins.rst. */
+/* Tighten up the whitespace in tables, especially the one in executors.rst. */
 .rst-content table.docutils thead th,
 .rst-content table.docutils td {
   padding-left: 0.5em;
@@ -15,7 +15,7 @@
 }
 
 /* Prefer top alignment vs. middle when table cells need word wrapping,
- * especially the one in plugins.rst.
+ * especially the one in executors.rst.
  */
 .rst-content table.docutils td {
   vertical-align: top;

@@ -6,9 +6,6 @@
 /docs/build/
 /docs/source/_autosummary/
 /docs/source/notebooks/debugging_example.ipynb
-/docs/source/notebooks/executor_ctx_vs_classes.ipynb
-/docs/source/notebooks/get_executor.ipynb
-/docs/source/notebooks/on_error.ipynb
 /htmlcov/
 /jupyter.log
 /pyrseus.code-workspace

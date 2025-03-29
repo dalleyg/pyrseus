@@ -15,6 +15,29 @@ class PInlineExecutor(InlineExecutor):
         Pickle-testing variant of `.InlineExecutor`, using the built-in `pickle`
         module.
 
+        Summary
+        -------
+
+        - *Common Use Cases:* troubleshooting pickling problems for other
+          executors that use `pickle` for serialization.
+
+        - *Concurrency:* This is a non-concurrent, serial-only executor. All
+          tasks are immediately run in the same process and thread they were
+          submitted in.
+
+        - *Exceptions:* This executor has standard exception-handling semantics:
+          all task-related exceptions are captured in the task's future.
+
+        - *Default max_workers:* Not applicable.
+
+        - *Pickling:* This executor takes extra time to pickle and unpickle all
+          tasks and their results. If you aren't troubleshooting such issues and
+          prefer lower overhead, consider using
+          `~pyrseus.executors.inline.InlineExecutor` instead.
+
+        Details
+        -------
+
         This variant pickles each submitted task and the task's results, using
         the built-in `pickle` module. This is primarily useful for
         troubleshooting pickling problems occurring in multi-process executors,
@@ -51,7 +74,7 @@ class PInlineExecutor(InlineExecutor):
         Because the failure happens within the same process and thread as the
         submit call, it is easy to debug by tracing into it with a debugger.
 
-        See :doc:`../plugins` for a list of related executors.
+        See :doc:`../executors` for a list of related executors.
 
         :param round_trip_kwargs: keyword arguments passed to
             `call_with_round_trip_pickling` for each submitted task.

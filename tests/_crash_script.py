@@ -48,6 +48,7 @@ See unit tests that run this script for what the expected output is.
 """
 
 import argparse
+import concurrent.futures
 import ctypes
 import faulthandler
 import os
@@ -60,7 +61,7 @@ from pickle import PicklingError, UnpicklingError
 
 import psutil
 
-from pyrseus.ctx.mgr import ExecutorCtx
+import pyrseus
 
 # Compat windows
 if platform.system() == "Windows":
@@ -233,10 +234,42 @@ ARG_LISTS = {
 }
 
 
+def get_executor(name, max_workers):
+    if name == "cpinline":
+        assert max_workers == 0
+        return pyrseus.CpInlineExecutor()
+    elif name == "cpnocatch":
+        assert max_workers == 0
+        return pyrseus.CpNoCatchExecutor()
+    elif name == "cpprocess":
+        assert max_workers > 0
+        return pyrseus.CpProcessPoolExecutor(max_workers=max_workers)
+    elif name == "inline":
+        assert max_workers == 0
+        return pyrseus.InlineExecutor()
+    elif name == "nocatch":
+        assert max_workers == 0
+        return pyrseus.NoCatchExecutor()
+    elif name == "pinline":
+        assert max_workers == 0
+        return pyrseus.PInlineExecutor()
+    elif name == "pnocatch":
+        assert max_workers == 0
+        return pyrseus.PNoCatchExecutor()
+    elif name == "process":
+        assert max_workers > 0
+        return concurrent.futures.ProcessPoolExecutor(max_workers=max_workers)
+    elif name == "thread":
+        assert max_workers > 0
+        return concurrent.futures.ThreadPoolExecutor(max_workers=max_workers)
+    else:
+        raise ValueError(name)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("timeout_secs", type=int)
-    parser.add_argument("plugin")
+    parser.add_argument("executor")
     parser.add_argument("func_name", choices=FUNCS)
     parser.add_argument("arg_name", choices=ARG_LISTS)
     parser.add_argument("--max-workers", type=int, default=1)
@@ -247,7 +280,7 @@ def main(argv=None):
     signal.signal(signal.SIGALRM, timeout_handler)
     signal.alarm(args.timeout_secs)
     print_step("SET-TIMEOUT")
-    ctx = ExecutorCtx(args.plugin, args.max_workers)
+    ctx = get_executor(args.executor, args.max_workers)
     print_step("CONSTRUCTED")
     with ctx as exe:
         print_step("ENTERED-CTX")

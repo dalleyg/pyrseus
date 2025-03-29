@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pyrseus.executors.pnocatch import PNoCatchExecutor
+from pyrseus import PNoCatchExecutor
 
 Cls = PNoCatchExecutor
 

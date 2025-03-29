@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import pytest
-from pyrseus.executors.pinline import PInlineExecutor
+from pyrseus import PInlineExecutor
 
 Cls = PInlineExecutor
 

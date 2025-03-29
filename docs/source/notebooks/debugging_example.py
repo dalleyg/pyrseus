@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.16.1
+#       jupytext_version: 1.16.7
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -36,16 +36,17 @@ import sys
 sys.path.append("../../../src")  # assume we're running it from a Pyrseus source clone
 import pickle
 import random
+from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import get_context
 
 import cloudpickle
 
+from pyrseus import CpProcessPoolExecutor, InlineExecutor, PInlineExecutor
 from pyrseus.core.pickle import call_with_round_trip_pickling, try_pickle_round_trip
-from pyrseus.ctx.mgr import ExecutorCtx
 
 # %% [markdown]
-# And here's a simple custom function we'll be experimenting with.
-# It works like `sorted`, but it uses the (slow) Selection Sort algorithm.
+# And here's a simple custom function we'll be experimenting with. It works like
+# `sorted`, but it uses the (slow) Selection Sort algorithm.
 
 
 # %%
@@ -74,7 +75,8 @@ def selection_sort(data):
 # %% [markdown]
 # ## Non-executor Usage
 #
-# Let's first try out the function by calling it directly with a few hand-crafted test cases.
+# Let's first try out the function by calling it directly with a few
+# hand-crafted test cases.
 
 # %%
 for data in (
@@ -96,8 +98,8 @@ for data in (
 
 
 # %% [markdown]
-# Let's also create a randomized test helper function and run it
-# on a few different inputs.
+# Let's also create a randomized test helper function and run it on a few
+# different inputs.
 
 
 # %%
@@ -123,9 +125,9 @@ assert sorting_test_with_big_random_list(42)
 # ## Failures with ProcessPoolExecutor
 #
 # Now suppose we want to run that test helper many times in parallel, using
-# `ProcessPoolExecutor`. Unfortunately, we quickly run into trouble.
-# Depending on your Python version, your platform, and exactly what was
-# submitted, this will result in at least one of the following:
+# `ProcessPoolExecutor`. Unfortunately, we quickly run into trouble. Depending
+# on your Python version, your platform, and exactly what was submitted, this
+# will result in at least one of the following:
 #  - dead workers (undesirable),
 #  - workers printing messages to stderr (undesirable),
 #  - `BrokenProcessPool` exceptions (a symptom),
@@ -134,17 +136,20 @@ assert sorting_test_with_big_random_list(42)
 #  - exceptions talking about unpickling (a symptom).
 #
 # For the sake of this notebook, we force it to use the most widely supported
-# pool type (`"spawn"`). At least on Python 3.10, this type also results in
-# the most verbose and confusing output.
+# pool type (`"spawn"`). At least on Python 3.10--3.12, this type also results
+# in the most verbose and confusing output.
 
-# %% editable=true slideshow={"slide_type": ""} tags=["raises-exception"]
-# In this cell, we first encounter a problem running our function
-# in some multiprocessing workers.
+# %%
+# In this cell, we first encounter a problem running our function in some
+# multiprocessing workers.
 try:
-    print("This test should print out many stderr lines from the workers, but succeed.")
+    print(
+        "This test should print out many stderr lines from the workers, "
+        "and ultimately fail."
+    )
     sys.stdout.flush()
 
-    with ExecutorCtx("process", 4, mp_context=get_context("spawn")) as exe:
+    with ProcessPoolExecutor(4, mp_context=get_context("spawn")) as exe:
         futs = [
             exe.submit(sorting_test_with_big_random_list, seed) for seed in range(25)
         ]
@@ -153,46 +158,42 @@ try:
                 print(f"Seed {seed} failed.")
 
 except Exception as ex:
+    sys.stderr.flush()
     print("CAUGHT EXCEPTION (expected):", ex)
 else:
+    sys.stderr.flush()
     raise RuntimeError("An exception should have been thrown.")
 
 # %% [markdown]
 # ## Troubleshooting with Serial Executors
 #
-# In cases where the exception message doesn't make it clear to the user
-# what to do, a common strategy is to run the code serially. Fortunately,
-# `ExecutorCtx` makes this trivial to do: we just need to change the plugin
-# name (or the `max_workers` argument if the plugin name is being omitted).
+# In cases where the exception message doesn't make it clear to the user what to
+# do, a common strategy is to run the code serially.
 
 # %%
-# In this cell, we've failed to replicate the problem.
-#
-# Notice that all we had to do was change "process"
-# to "inline" to try this out. We didn't need to remove
-# the 4 or mp_context arguments.
-with ExecutorCtx("inline", 4, mp_context=get_context("spawn")) as exe:
+# In this cell, we'll try reproducing the problem with an InlineExecutor, since
+# that's often a good first thing to try. We fail to do so: this cell works
+# fine.
+with InlineExecutor() as exe:
     futs = [exe.submit(sorting_test_with_big_random_list, seed) for seed in range(25)]
     for seed, fut in enumerate(futs):
         if not fut.result():
             print(f"Seed {seed} failed.")
 
 # %% [markdown]
-# Unfortunately, the above snippet doesn't reproduce the problem. Let's
-# assume this led to us doing some more experiments and/or web searches,
-# making us think this could be related to pickling and/or unpickling.
+# Unfortunately, the above snippet doesn't reproduce the problem. Let's assume
+# this led to us doing some more experiments and/or web searches, making us
+# think this could be related to pickling and/or unpickling.
 #
-# At this point, we may try using `PInlineExecutor`, since it advertises
-# itself as a tool for troubleshooting pickling problems. And indeed we
-# now have a reproducer.
+# At this point, we may try using `PInlineExecutor`, since it advertises itself
+# as a tool for troubleshooting pickling problems. And indeed we now have a
+# reproducer.
 
 # %%
-# In this cell, we have successfully replicated the problem with a serial executor.
-#
-# Notice that all we had to do was change "inline"
-# to "pinline" to try this out.
+# In this cell, we have successfully replicated the problem with a serial
+# executor that performs a pickling test for each task.
 try:
-    with ExecutorCtx("pinline", 4, mp_context=get_context("spawn")) as exe:
+    with PInlineExecutor() as exe:
         futs = [
             exe.submit(sorting_test_with_big_random_list, seed) for seed in range(25)
         ]
@@ -204,8 +205,8 @@ except Exception as ex:
     print("CAUGHT EXCEPTION (expected):", ex)
 
 # %% [markdown]
-# Additionally, this test was done with the pure Python pickler,
-# so we could even trace into it with ``ipdb`` if we want.
+# Additionally, this test was done with the pure Python pickler, so we could
+# even trace into it with ``ipdb`` if we want.
 
 # %%
 # If you'd like to try debugging it yourself, then
@@ -218,10 +219,10 @@ except Exception as ex:
 # %% [markdown]
 # ## Testing Cloudpickle Serially
 #
-# At this point, we have figured out it's a picklability problem. Hopefully we've also
-# figured out that the problem is that we're using a function that's defined in
-# ``__main__`` instead of in an imported module. Additionally, we've hopefully heard
-# about the `cloudpickle` library being a solution to this kind of problem.
+# At this point, we have figured out it's a picklability problem. The error
+# message suggests that we're using a function that's defined in ``__main__``
+# instead of in an imported module. Additionally, we've hopefully heard about
+# the `cloudpickle` library being a solution to this kind of problem.
 #
 # We could test this last hypothesis in a few ways. First, let's verify whether
 # `cloudpickle` works at all on our function. It does:
@@ -233,19 +234,20 @@ reconstructed = cloudpickle.loads(pickled)
 assert reconstructed(0)
 
 # %% [markdown]
-# That said, we probably shouldn't trust `cloudpickle` that much since `pickle` thought
-# it could handle our function too (and technically it can, but only when we don't
-# send the pickled bytestring to another process for unpickling).
+# That said, we probably shouldn't trust `cloudpickle` that much since `pickle`
+# thought it could handle our function too (and technically it can, but only
+# when we don't send the pickled bytestring to another process for unpickling).
 #
-# Fortunately, Pyrseus ships with a simple test function that simulates this situation.
-# First let's show that we can replicate the problem with it when using `pickle`.
+# Fortunately, Pyrseus ships with a simple test function that simulates this
+# situation. First let's show that we can replicate the problem with it when
+# using `pickle`.
 
 # %%
 # First, make sure that try_pickle_round_trip can replicate our problem when using pickle.
 try:
     try_pickle_round_trip(
         sorting_test_with_big_random_list,
-        dumps=pickle.dumps,
+        dumps=pickle.dumps,  # Reproduce the problem by using the built-in pickler
         loads=pickle.loads,
         hide_main=True,  # The default is true. We include it here for emphasis.
     )
@@ -255,14 +257,15 @@ else:
     raise RuntimeError("try_pickle_round_trip failed to replicate the problem.")
 
 # %% [markdown]
-# Now let's try using that function to see it thinks `cloudpickle` will fix our problems.
+# Now let's try using that function to see it thinks `cloudpickle` will fix our
+# problems.
 
 # %%
-# Indeed, try_pickle_round_trip tells us that if we use cloudpickle,
-# then our pickling problems will likely go away.
+# Indeed, try_pickle_round_trip tells us that if we use cloudpickle, then our
+# pickling problems will likely go away.
 reconstructed = try_pickle_round_trip(
     sorting_test_with_big_random_list,
-    dumps=cloudpickle.dumps,
+    dumps=cloudpickle.dumps,  # Fix the problem by using cloudpickle instead of pickle
     loads=cloudpickle.loads,
 )
 assert reconstructed(0)
@@ -271,7 +274,8 @@ assert reconstructed(0)
 # We might also try using an even more complete tester that internally:
 # - runs `try_pickle_round_trip` on the function (similar to above),
 # - calls the function (so we see if the call itself is a problem), and
-# - runs `try_pickle_round_trip` on the function result (in case there's a picklability problem with it).
+# - runs `try_pickle_round_trip` on the function result (in case there's a
+#   picklability problem with it).
 
 # %%
 # call_with_round_trip_pickling also thinks that everything's good if we
@@ -289,34 +293,18 @@ assert call_with_round_trip_pickling(
 #
 # So now let's try some `cloudpickle`-enabled executors.
 #
-# First, we see that `CpProcessPoolExecutor` works fine. It's just
-# a thin wrapper around `ProcessPoolExecutor` that uses `cloudpickle`
-# for pickling tasks and their results.
+# First, we see that `CpProcessPoolExecutor` works fine. It's just a thin
+# wrapper around `ProcessPoolExecutor` that uses `cloudpickle` for pickling
+# tasks and their results.
 
 # %%
-# CpProcessPoolExecutor works! Also, all we had to do was change the
-# plugin name to "cpprocess".
-with ExecutorCtx("cpprocess", 4, mp_context=get_context("spawn")) as exe:
+# CpProcessPoolExecutor works!
+with CpProcessPoolExecutor(4, mp_context=get_context("spawn")) as exe:
     futs = [exe.submit(sorting_test_with_big_random_list, seed) for seed in range(25)]
     for seed, fut in enumerate(futs):
         if not fut.result():
             print(f"Seed {seed} failed.")
 
 # %% [markdown]
-# We might also try a fancier one like `loky`'s. Their executor is
-# a from-scratch rewrite of `ProcessPoolExecutor`, with built-in
-# `cloudpickle` support, and various robustness improvements over the
-# built-in one. It works fine too.
-
-# %%
-# loky's ProcessPoolExecutor also works. Similar to before, we only had to
-# change the plugin name to "loky".
-with ExecutorCtx("loky", 4, mp_context=get_context("spawn")) as exe:
-    futs = [exe.submit(sorting_test_with_big_random_list, seed) for seed in range(25)]
-    for seed, fut in enumerate(futs):
-        if not fut.result():
-            print(f"Seed {seed} failed.")
-
-# %% [markdown]
-# Now, we're done debugging. We know that we just need to make sure
-# we use a `cloudpickle`-enabled plugin like `"cpprocess"` or `"loky"`.
+# Now, we're done debugging. We know that we just need to make sure we use a
+# `cloudpickle`-enabled executor like `CpProcessPoolExecutor`.

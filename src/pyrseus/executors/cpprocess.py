@@ -15,6 +15,28 @@ class CpProcessPoolExecutor(ProcessPoolExecutor):
     |cloudpickle|_ for pickling tasks and their return values, instead of
     `pickle`.
 
+    Summary
+    -------
+
+    - *Common Use Cases:* For the same use cases as
+      `concurrent.futures.ProcessPoolExecutor`, but when users wish to use
+      |cloudpickle|_ instead of `pickle` for serializing tasks and their
+      results.
+
+    - *Concurrency:* Each worker runs in its own process.
+
+    - *Exceptions:* This executor has standard exception-handling semantics: all
+      task-related exceptions are captured in the task's future.
+
+    - *Default max_workers*:* Uses `~pyrseus.core.sys.get_num_available_cores`
+      instead of `multiprocessing.cpu_count`, respecting the CPU affinity mask
+      when possible. Currently is unaware of cgroups constraints.
+
+    - *Pickling:* |cloudpickle|_
+
+    Details
+    -------
+
     Consider this lambda.
 
         >>> needs_cloudpickle = lambda: 123
@@ -45,7 +67,7 @@ class CpProcessPoolExecutor(ProcessPoolExecutor):
         ...     print(fut.result())
         123
 
-    See :doc:`../plugins` for a list of related executors.
+    See :doc:`../executors` for a list of related executors.
     """
 
     def submit(self, fcn, /, *args, **kwargs):

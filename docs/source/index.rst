@@ -1,26 +1,16 @@
-#########################################################
-Pyrseus: Serial Executors and the ``ExecutorCtx`` Factory
-#########################################################
+###################################################
+Pyrseus: More `concurrent.futures.Executor` Classes
+###################################################
 
-Pyrseus extends Python's `concurrent.futures` asynchronous and concurrent
-programming package with:
-
-- a collection of non-concurrent executors for light workloads and
-  troubleshooting,
-- `~pyrseus.ctx.mgr.ExecutorCtx`, a factory for easily switching between
-  different executors, and
-- a collection of ready-built `~pyrseus.ctx.mgr.ExecutorCtx` plugins, supporting
-  executors from `concurrent.futures`, |ipyparallel|_, |loky|_, |mpi4py|_, and
-  itself. Where relevant, optional |cloudpickle|_-enhanced plugins are also
-  provided.
+Pyrseus extends Python's `concurrent.futures` package with a collection of
+concurrent and non-concurrent executors for light workloads and troubleshooting,
 
 .. toctree::
    :hidden:
 
    Pyrseus Home<self>
    install
-   plugins
-   writingplugins
+   executors
    contributing
 
 General Information
@@ -28,9 +18,7 @@ General Information
 
 - :doc:`install`
 
-- :doc:`plugins`
-
-- :doc:`writingplugins`
+- :doc:`executors`
 
 - :doc:`contributing`
 
@@ -51,7 +39,4 @@ Usage Examples
    :maxdepth: 2
    :caption: Notebooks
 
-   notebooks/executor_ctx_vs_classes
    notebooks/debugging_example
-   notebooks/on_error
-   notebooks/get_executor

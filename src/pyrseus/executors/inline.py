@@ -20,9 +20,36 @@ Ret = TypeVar("Ret")
 class InlineExecutor(Executor):
     def __init__(self):
         """
-        Creates an `~concurrent.futures.Executor` that evaluates the task
-        immediately upon submission, trapping exceptions like normal executors
-        do.
+        An `~concurrent.futures.Executor` that evaluates the task immediately
+        upon submission, trapping exceptions like normal executors do.
+
+        Summary
+        -------
+
+        - *Common Use Cases:*
+
+        - Light workloads: this executor is useful for avoiding concurrency
+          overhead when running small batches of tasks. This lets developers
+          avoid the alternative of rewriting all of their control flow to not
+          use executors at all, just to get serial execution.
+
+        - Troubleshooting: since tasks are executed immediately and within the
+          same thread, tracing through the task code in a debugger is trivially
+          easy.
+
+        - *Concurrency:* This is a non-concurrent, serial-only executor. All
+          tasks are immediately run in the same process and thread they were
+          submitted in.
+
+        - *Exceptions:* This executor has standard exception-handling semantics:
+          all task-related exceptions are captured in the task's future.
+
+        - *Default max_workers:* Not applicable.
+
+        - *Pickling:* This executor does not perform any pickling.
+
+        Details
+        -------
 
         As with the only built-in within-process executor,
         `~concurrent.futures.ThreadPoolExecutor`, arbitrary callables can be
@@ -35,7 +62,7 @@ class InlineExecutor(Executor):
             ...     worker_pid_is_my_pid = fut.result()   # no pickling error
             ...     assert os.getpid() == worker_pid_is_my_pid
 
-        See :doc:`../plugins` for a list of related executors.
+        See :doc:`../executors` for a list of related executors.
         """
         self._closing = False
 

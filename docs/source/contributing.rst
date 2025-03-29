@@ -13,28 +13,6 @@ Checklist
 When preparing a Pull Request for the Pyrseus repository, please be mindful of
 the following guidance.
 
-- Manage 3rd party dependencies.
-
-  - If any extra 3rd party dependencies are needed, add them to
-
-    - ``optional-dependencies.txt``, if your feature will work on all platforms,
-      or
-    - ``optional-non-win32-dependencies.txt``, if your feature only works on
-      Linux (including under WSL) and macOS.
-
-  - If any extra 3rd party dependencies are needed, also add them to
-    ``docs/requirements.txt`` (always).
-
-  - Limit any new 3rd party dependencies to being used in `pyrseus.ctx.plugins`.
-    We'd like to keep the required set of dependencies small.
-
-  - Use lazy imports for any 3rd party dependencies that aren't listed in
-    ``requirements.txt``. E.g. it's fine to import |cloudpickle|_ at the top of
-    any module, but imports of |ipyparallel|_, |loky|_, and |mpi4py|_ must
-    always be done inside a function. Additionally, build-in plugins must not
-    require importing any optional 3rd party dependencies to evaluate their
-    ``ENTRY_POINT.is_available`` property.
-
 - Fully test your changes (see below).
 
 - Prepare your pull request (PR).
@@ -43,7 +21,7 @@ the following guidance.
 
     - Use ``ruff check --fix .``.
     - Run `black <https://black.readthedocs.io>`_ on any ``.py`` files you
-      added or created.
+      modified or added.
 
   - Document your change in the PR description.
 
@@ -62,11 +40,11 @@ Pyrseus repository:
   testing: with all optional dependencies, and then again with just the base
   dependencies.
 
-- ``tox -e py3.10-all-linux``: example of how to run just the Python 3.10 tests
+- ``tox -e py3.12-all-linux``: example of how to run just the Python 3.12 tests
   with ``all`` optional dependencies (vs. just the ``base`` dependencies) on
   Linux.
 
-- ``tox -- -k test_ipyparallel_plugin``: an example of selecting one test file
+- ``tox -- -k test_cpnocatch_pickle``: an example of selecting one test file
   to run.
 
 - ``tox -e html``: generates the HTML documentation for Pyrseus using Sphinx.
