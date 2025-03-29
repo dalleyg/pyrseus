@@ -40,8 +40,9 @@ from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import get_context
 
 import cloudpickle
+
+from pyrseus import CpProcessPoolExecutor, InlineExecutor, PInlineExecutor
 from pyrseus.core.pickle import call_with_round_trip_pickling, try_pickle_round_trip
-from pyrseus import *
 
 # %% [markdown]
 # And here's a simple custom function we'll be experimenting with. It works like
