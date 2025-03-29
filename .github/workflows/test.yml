@@ -35,10 +35,6 @@ jobs:
             include-optionals: false
             python-version: "3.13"
             os-type: linux
-          - os: ubuntu-latest
-            include-optionals: false
-            python-version: "3.14"
-            os-type: linux
 
           # Perform all tests on the three supported operating systems, for the
           # one recent Python version.
